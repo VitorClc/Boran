@@ -1,6 +1,5 @@
-import pygame
-import pyautogui
-import os
+import pygame, pyautogui, os
+from Scenes import SceneModel, SceneManager
 
 windowWidth = 800
 windowHeight = 600
@@ -11,15 +10,23 @@ y = (pyautogui.size().height - windowHeight) / 2
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
 ###
 
-pygame.init()
-screen = pygame.display.set_mode((windowWidth, windowHeight))
-pygame.display.set_caption("Hello World!")
+sceneTest = SceneModel()
 
-done = False
 
-while not done:
-        for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                        done = True
-        
-        pygame.display.flip()
+scenes = [sceneTest]
+
+sceneManager = SceneManager(scenes, 0)
+
+
+#pygame.init()
+#screen = pygame.display.set_mode((windowWidth, windowHeight))
+#pygame.display.set_caption("Hello World!")
+
+#done = False
+
+#while not done:
+#        for event in pygame.event.get():
+#                if event.type == pygame.QUIT:
+#                        done = True
+#        
+#        pygame.display.flip()
