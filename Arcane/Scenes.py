@@ -10,6 +10,7 @@ class SceneManager:
         self.actualScene.Start(self, self.window)
 
     def UpdateScene(self):
+        self.actualScene.ProcessInput(self)
         self.actualScene.Update(self)
 
 class SceneModel(ABC):
@@ -18,8 +19,8 @@ class SceneModel(ABC):
         print("Starting scene")
     
     @abstractmethod
-    def ProcessInput(self, events, pressed_keys):
-        print("uh-oh, you didn't override this in the child class")
+    def ProcessInput(self):
+        pring("Processing Inputs")
 
     @abstractmethod
     def Update(self):

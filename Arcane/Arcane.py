@@ -10,14 +10,10 @@ gameWindow = GameWindow(1280, 720, "Hello World")
 scenes = [testScene]
 sceneManager = SceneManager(scenes, 0, gameWindow)
 
-running = False
+running = True
 
 sceneManager.InitScene()
 
-while not running:
-        for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                        done = True
-        
+while running:        
         sceneManager.UpdateScene()
         pygame.display.flip()
