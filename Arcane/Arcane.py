@@ -1,20 +1,20 @@
 import pygame
 from Window import GameWindow
-from Scenes import SceneModel, SceneManager
+from Scenes import SceneManager
 
-sceneTest = SceneModel()
-
-scenes = [sceneTest]
-
-sceneManager = SceneManager(scenes, 0)
+from testScene import testScene
 
 pygame.init()
 gameWindow = GameWindow(1280, 720, "Hello World")
 
-done = False
+scenes = [testScene]
+sceneManager = SceneManager(scenes, 0, gameWindow)
 
-sceneManager.StartScene()
-while not done:
+running = False
+
+sceneManager.InitScene()
+
+while not running:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                         done = True

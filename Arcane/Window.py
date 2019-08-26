@@ -11,6 +11,6 @@ class GameWindow(object):
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
         ###
 
-        screen = pygame.display.set_mode((self.windowWidth, self.windowHeight))
+        self.display = pygame.display.set_mode((self.windowWidth, self.windowHeight))
         pygame.display.set_caption(_title)
 
