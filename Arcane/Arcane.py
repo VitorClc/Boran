@@ -1,14 +1,6 @@
-import pygame, pyautogui, os
+import pygame
+from Window import GameWindow
 from Scenes import SceneModel, SceneManager
-
-windowWidth = 800
-windowHeight = 600
-
-### Center Window
-x = (pyautogui.size().width - windowWidth) / 2
-y = (pyautogui.size().height - windowHeight) / 2
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
-###
 
 sceneTest = SceneModel()
 
@@ -17,8 +9,7 @@ scenes = [sceneTest]
 sceneManager = SceneManager(scenes, 0)
 
 pygame.init()
-screen = pygame.display.set_mode((windowWidth, windowHeight))
-pygame.display.set_caption("Hello World!")
+gameWindow = GameWindow(1280, 720, "Hello World")
 
 done = False
 
