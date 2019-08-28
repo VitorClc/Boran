@@ -15,5 +15,5 @@ running = True
 sceneManager.InitScene()
 
 while running:        
-        sceneManager.UpdateScene()
-        pygame.display.flip()
+    sceneManager.UpdateScene()
+    pygame.display.flip()

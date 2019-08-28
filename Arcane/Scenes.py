@@ -20,7 +20,7 @@ class SceneModel(ABC):
     
     @abstractmethod
     def ProcessInput(self):
-        pring("Processing Inputs")
+        print("Processing Inputs")
 
     @abstractmethod
     def Update(self):
