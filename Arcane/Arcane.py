@@ -1,6 +1,6 @@
 import pygame,sys
-from Window import GameWindow
-from Scenes import SceneManager
+from Core.Window import GameWindow
+from Core.Scenes import SceneManager
 
 from testScene import testScene
 

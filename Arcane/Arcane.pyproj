@@ -23,19 +23,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Arcane.py" />
-    <Compile Include="GameObject.py">
+    <Compile Include="Core\GameObject.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Scenes.py">
+    <Compile Include="Core\Scenes.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="testScene.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tilemap.py">
+    <Compile Include="Core\Tilemap.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Window.py">
+    <Compile Include="Core\Window.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -49,6 +49,9 @@
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
       <Architecture>X64</Architecture>
     </Interpreter>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

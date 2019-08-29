@@ -1,6 +1,6 @@
 import pygame
-from Scenes import SceneModel
-from Tilemap import Loader
+from Core.Scenes import SceneModel
+from Core.Tilemap import Loader
 
 class testScene(SceneModel):
     def Start(self, _gameWindow):
