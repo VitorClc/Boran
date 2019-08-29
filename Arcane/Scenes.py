@@ -1,3 +1,4 @@
+import pygame, sys
 from abc import ABC, abstractmethod
 
 class SceneManager:
@@ -12,6 +13,7 @@ class SceneManager:
     def UpdateScene(self):
         self.actualScene.ProcessInput(self)
         self.actualScene.Update(self)
+        self.actualScene.CheckQuit(self)
 
 class SceneModel(ABC):
     @abstractmethod
@@ -29,3 +31,10 @@ class SceneModel(ABC):
     @abstractmethod
     def Render(self, screen):
         print("uh-oh, you didn't override this in the child class")
+
+    def CheckQuit(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                sys.exit(0)

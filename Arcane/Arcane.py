@@ -1,4 +1,4 @@
-import pygame
+import pygame,sys
 from Window import GameWindow
 from Scenes import SceneManager
 
