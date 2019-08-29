@@ -16,17 +16,13 @@ class SceneManager:
 
 class SceneModel(ABC):
     @abstractmethod
-    def Start(self):
+    def Init(self):
         print("Starting scene")
    
     @abstractmethod
-    def Update(self):
+    def Render(self):
         print("Updating scene")
     
-    @abstractmethod
-    def Render(self, screen):
-        print("uh-oh, you didn't override this in the child class")
-
     def CheckQuit(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
