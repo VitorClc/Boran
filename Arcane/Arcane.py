@@ -2,7 +2,7 @@ import pygame,sys
 from Core.Window import GameWindow
 from Core.Scenes import SceneManager
 
-from testScene import testScene
+from SCENES.testScene import testScene
 
 pygame.init()
 gameWindow = GameWindow(1280, 720, "Hello World")

@@ -29,7 +29,7 @@
     <Compile Include="Core\Scenes.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="testScene.py">
+    <Compile Include="SCENES\testScene.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Tilemap.py">
@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\" />
+    <Folder Include="SCENES\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
