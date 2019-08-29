@@ -11,7 +11,6 @@ class SceneManager:
         self.actualScene.Start(self, self.window)
 
     def UpdateScene(self):
-        self.actualScene.ProcessInput(self)
         self.actualScene.Update(self)
         self.actualScene.CheckQuit(self)
 
@@ -19,11 +18,7 @@ class SceneModel(ABC):
     @abstractmethod
     def Start(self):
         print("Starting scene")
-    
-    @abstractmethod
-    def ProcessInput(self):
-        print("Processing Inputs")
-
+   
     @abstractmethod
     def Update(self):
         print("Updating scene")
