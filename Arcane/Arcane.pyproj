@@ -29,6 +29,9 @@
     <Compile Include="Core\Scenes.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Player.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SCENES\testScene.py">
       <SubType>Code</SubType>
     </Compile>
