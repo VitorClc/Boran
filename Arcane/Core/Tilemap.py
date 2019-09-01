@@ -13,11 +13,12 @@ class Loader(object):
         self.width = self.tilemapData.width
         self.height = self.tilemapData.height
 
-    def render(self, display):
+    def Render(self, display):
         for x in range(self.width):
             for y in range(self.height):
                 tile = self.tilemapData.get_tile_image(x,y,0)
-                resizedTile = pygame.transform.scale(tile, (64,64))
-                display.blit(resizedTile, (x * 64, y * 64))
+                if(tile != None):
+                    resizedTile = pygame.transform.scale(tile, (64,64))
+                    display.blit(resizedTile, (x * 64, y * 64))
 
 

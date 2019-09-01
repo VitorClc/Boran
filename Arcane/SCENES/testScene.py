@@ -10,5 +10,5 @@ class testScene(SceneModel):
         self.player = Player(0,0)
 
     def Update(self):
-        self.tilemap.render(self.window.display)
-        self.player.Update(self.window.display)
+        self.tilemap.Render(self.window.display)
+        self.player.Render(self.window.display)

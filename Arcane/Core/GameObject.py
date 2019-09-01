@@ -14,5 +14,5 @@ class GameObjectBase(object):
         print("Processing Inputs")
 
     @abstractmethod
-    def Update(self, _gameWindow):
+    def Render(self, _gameWindow):
         print("Updating Game Object")
