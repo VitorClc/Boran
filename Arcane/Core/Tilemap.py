@@ -2,7 +2,7 @@ import pygame
 from pytmx.util_pygame import load_pygame
 
 class Loader(object):
-    def __init__(self, _filename):
+    def __init__(self, _filename, xCam, yCam):
         self.filename = _filename
         self.tilemapData = load_pygame(self.filename)
         #self.tileWidth = self.tilemapData.tilewidth    
@@ -13,7 +13,12 @@ class Loader(object):
         self.height = self.tilemapData.height
         self.layers = self.tilemapData.layers
 
-    def Render(self, display, xCam, yCam):
+        self.offsetX = xCam
+        self.offsetY = yCam
+
+        self.tileSurface = pygame.Surface((self.width * 256 + xCam + 400, self.height * 128 + yCam))
+
+    def Render(self, display):
         for layer in range(len(self.layers)):
             for x in range(0, self.width):
                 for y in range(0,self.height):
@@ -24,5 +29,5 @@ class Loader(object):
 
                         centeredX = xPos + display.get_rect().centerx
                         centeredY = yPos - display.get_rect().centery
-                        display.blit(tile, (xCam + centeredX, yCam + centeredY))
+                        self.tileSurface.blit(tile, ((self.offsetX * 2) + centeredX, self.offsetY + centeredY))
 
