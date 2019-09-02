@@ -6,5 +6,5 @@ class Player(GameObjectBase):
         self.x = x
         self.y = y
 
-    def Render(self, _gameWindow):
-        pygame.draw.rect(_gameWindow, (0,0,255), (self.x,self.y, 64, 64))
+    #def Render(self, _gameWindow):
+    #    pygame.draw.rect(_gameWindow, (0,0,255), (self.x,self.y, 64, 64))
