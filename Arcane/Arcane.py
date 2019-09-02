@@ -5,7 +5,7 @@ from Core.Scenes import SceneManager
 from SCENES.testScene import testScene
 
 pygame.init()
-gameWindow = GameWindow(1280, 720, "Hello World")
+gameWindow = GameWindow(1920, 1080, "Arcane")
 
 scenes = [testScene]
 sceneManager = SceneManager(scenes, 0, gameWindow)
