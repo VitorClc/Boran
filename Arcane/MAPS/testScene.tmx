@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="isometric" renderorder="right-down" width="15" height="15" tilewidth="256" tileheight="128" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.4" orientation="isometric" renderorder="right-down" width="8" height="8" tilewidth="256" tileheight="128" infinite="0" nextlayerid="4" nextobjectid="1">
  <tileset firstgid="1" source="../TILESETS/isometricSample.tsx"/>
- <layer id="1" name="Camada de Tiles 1" width="15" height="15">
+ <layer id="1" name="Ground" width="8" height="8">
   <data encoding="csv">
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <layer id="2" name="Walls" width="8" height="8">
+  <data encoding="csv">
+2,2,2,2,2,2,2,2,
+2,0,0,0,0,0,0,0,
+2,0,0,0,0,0,0,0,
+2,0,0,0,0,0,0,0,
+2,0,0,0,0,0,0,0,
+2,0,0,0,0,0,0,0,
+2,0,0,0,0,0,0,0,
+2,0,0,0,0,0,0,0
 </data>
  </layer>
 </map>
