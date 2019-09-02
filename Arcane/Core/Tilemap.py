@@ -13,15 +13,16 @@ class Loader(object):
         self.height = self.tilemapData.height
         self.layers = self.tilemapData.layers
 
-    def Render(self, display, xCam):
+    def Render(self, display, xCam, yCam):
         for layer in range(len(self.layers)):
             for x in range(0, self.width):
                 for y in range(0,self.height):
                     tile = self.tilemapData.get_tile_image(x,y,layer)
                     if(tile != None):
-                        xPos = (x * 256 / 2) - (y * 256 / 2)
-                        yPos = (y * 128 / 2) + (x * 128 / 2)
-                        centeredX =  xPos + display.get_rect().centerx
+                        xPos = (x - y) * 256 / 2
+                        yPos = (y + x) * 128 / 2
+
+                        centeredX = xPos + display.get_rect().centerx
                         centeredY = yPos - display.get_rect().centery
-                        display.blit(tile, (xCam + centeredX, centeredY))
+                        display.blit(tile, (xCam + centeredX, yCam + centeredY))
 
