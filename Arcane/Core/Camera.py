@@ -1,9 +1,9 @@
 import pygame
 
 class MouseControl(object):
-    def __init__(self, xlimits, ylimits, sensibility):
-        self.x = 0
-        self.y = 0
+    def __init__(self, xlimits, ylimits, startPosition, sensibility):
+        self.x = startPosition[0]
+        self.y = startPosition[1]
 
         self.xMin = xlimits[0]
         self.xMax = xlimits[1]
