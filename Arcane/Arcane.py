@@ -7,7 +7,7 @@ from SCENES.testScene import testScene
 targetFPS = 60
 
 pygame.init()
-gameWindow = GameWindow(1920, 1080, "Arcane")
+gameWindow = GameWindow(1280, 720, "Arcane")
 
 scenes = [testScene]
 sceneManager = SceneManager(scenes, 0, gameWindow)

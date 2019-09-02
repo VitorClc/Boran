@@ -23,6 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Arcane.py" />
+    <Compile Include="Core\Camera.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Core\GameObject.py">
       <SubType>Code</SubType>
     </Compile>
