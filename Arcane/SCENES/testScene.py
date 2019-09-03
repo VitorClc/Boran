@@ -19,6 +19,7 @@ class testScene(SceneModel):
         
         self.tilemap.DrawSprite(self.camera.x, self.camera.y)
 
+        self.player.ProcessInputs()
         self.player.Render(self.camera.x, self.camera.y)
 
         pygame.display.update(self.tilemap.tilemapSprite)
