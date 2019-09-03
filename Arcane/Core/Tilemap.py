@@ -18,7 +18,9 @@ class Loader(object):
         self.offsetX = xCam
         self.offsetY = yCam
 
-        self.tileSurface = pygame.Surface((self.width * 256 + xCam + 400, self.height * 128 + yCam))
+        self.tileSurface = pygame.Surface((self.width * 256 + 200, self.height * 128 + 200))
+        self.tileSurface.get_rect().centerx = (self.width * 256) / 2
+        self.tileSurface.get_rect().centery = (self.height * 128) / 2
 
     def DrawSprite(self, cameraX, cameraY):
         self.tilemapSprite = self.display.blit(self.tileSurface, (cameraX,cameraY))
@@ -32,7 +34,7 @@ class Loader(object):
                         xPos = (x - y) * 256 / 2
                         yPos = (y + x) * 128 / 2
 
-                        centeredX = xPos + self.display.get_rect().centerx
-                        centeredY = yPos - self.display.get_rect().centery
-                        self.tileSurface.blit(tile, ((self.offsetX * 2) + centeredX, self.offsetY + centeredY))
+                        centeredX = xPos + self.tileSurface.get_rect().centerx
+                        centeredY = yPos - self.tileSurface.get_rect().centery / 2
+                        self.tileSurface.blit(tile, (centeredX - self.offsetX, centeredY - self.offsetY))
 

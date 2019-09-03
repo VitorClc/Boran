@@ -5,8 +5,8 @@ class Player(GameObjectBase):
     def __init__(self, gameWindow, x, y):
         self.gameWindow = gameWindow
 
-        self.x = x
-        self.y = y
+        self.x = x * 16
+        self.y = y * 16
 
         self.files = pygame.image.load("SPRITES/Human/Human_0_Idle0.png")
     
