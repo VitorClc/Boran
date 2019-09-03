@@ -2,9 +2,13 @@ import pygame
 from Core.GameObject import GameObjectBase
 
 class Player(GameObjectBase):
-    def __init__(self, x, y):
+    def __init__(self, gameWindow, x, y):
+        self.gameWindow = gameWindow
+
         self.x = x
         self.y = y
 
-    #def Render(self, _gameWindow):
-    #    pygame.draw.rect(_gameWindow, (0,0,255), (self.x,self.y, 64, 64))
+        self.files = pygame.image.load("SPRITES/Human/Human_0_Idle0.png")
+    
+    def Render(self, cameraX, cameraY):
+        self.playerSprite = self.gameWindow.blit(self.files, (self.x + cameraX, self.y + cameraY))

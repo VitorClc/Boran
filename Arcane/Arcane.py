@@ -21,6 +21,6 @@ clock = pygame.time.Clock()
 while running:
     gameWindow.display.fill((0,0,0))
     sceneManager.UpdateScene()
-    print(clock.get_fps())
+    #print(clock.get_fps())
     clock.tick(targetFPS)
     pygame.display.flip()
