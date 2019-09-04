@@ -9,7 +9,7 @@ class testScene(SceneModel):
         self.window = _gameWindow
         self.camera = MouseControl([500, -700], [500, -700], [-200,-50], 10)
 
-        self.tilemap = Loader(self.window.display, "MAPS/testScene.tmx", 80, -112)
+        self.tilemap = Loader(self.window.display, "MAPS/testScene.tmx")
         self.tilemap.Render()
 
         self.player = Player(self.window.display, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)))
