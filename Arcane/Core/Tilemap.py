@@ -25,6 +25,11 @@ class Loader(object):
     def DrawSprite(self, cameraX, cameraY):
         self.tilemapSprite = self.display.blit(self.tileSurface, (cameraX,cameraY))
 
+    def isometricToCartesian(self, isometric):
+        cartesianX=(2*isometric.y+isometric.x)/2 * 128;
+        cartesianY=(2*isometric.y-isometric.x)/2 * 64;
+        return pygame.math.Vector2(cartesianX, cartesianY)
+
     def Render(self):
         for layer in range(len(self.layers)):
             for x in range(0, self.width):

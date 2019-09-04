@@ -12,7 +12,7 @@ class testScene(SceneModel):
         self.tilemap = Loader(self.window.display, "MAPS/testScene.tmx", 80, -112)
         self.tilemap.Render()
 
-        self.player = Player(self.window.display, 17,20)
+        self.player = Player(self.window.display, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)))
 
     def Update(self):
         self.camera.getMovements(self.window.display)

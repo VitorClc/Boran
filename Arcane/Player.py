@@ -2,10 +2,10 @@ import pygame
 from Core.GameObject import GameObjectBase
 
 class Player(GameObjectBase):
-    def __init__(self, gameWindow, x, y):
+    def __init__(self, gameWindow, startPosition):
         self.gameWindow = gameWindow
 
-        self.cartesianPos = pygame.math.Vector2(x * 16, y * 16)
+        self.cartesianPos = pygame.math.Vector2(startPosition.x, startPosition.y)
         self.isometricPos = self.cartesianToIsometric(self.cartesianPos)
 
         self.files = pygame.image.load("SPRITES/Human/Human_0_Idle0.png")
