@@ -33,8 +33,9 @@ class Loader(object):
         return pygame.math.Vector2(cartesianX, cartesianY)
     
     def cartesianToIsometric(self, cartesian, camera):
-        isometricX= math.floor((cartesian.x +- camera.x -cartesian.y + camera.y) / self.tileSize.x)
-        isometricY=math.floor(((cartesian.x+cartesian.y)/ 2) / self.tileSize.y);
+        isometricX=math.floor((cartesian.y / self.tileSize.y) + (cartesian.x / self.tileSize.x))
+        isometricY=math.floor((-cartesian.x / self.tileSize.x) + (cartesian.y / self.tileSize.y))
+        print(isometricY - math.floor(self.yOffset/self.tileSize.y))
         return pygame.math.Vector2(isometricX, isometricY)
 
     def Render(self):

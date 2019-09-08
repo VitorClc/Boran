@@ -17,13 +17,13 @@ class testScene(SceneModel):
 
         self.player = Player(self.window.display, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)))
 
-        self.mousePosCartText = Text("AA", 25, pygame.Vector2(0, 2))
-        self.mousePosIsoText = Text("AA", 25, pygame.Vector2(0, self.mousePosCartText.size + 5))
+        self.mousePosCartText = Text("Mouse Cart", 25, pygame.Vector2(0, 2))
+        self.mousePosIsoText = Text("Mouse ISO", 25, pygame.Vector2(0, self.mousePosCartText.size + 5))
 
     def Update(self):
         self.camera.getMovements(self.window.display)
         
-        self.mousePosCartText.setText("Mouse CARTESIAN: " + str(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + self.tilemap.tileSize.x / 4)))
+        self.mousePosCartText.setText("Mouse CARTESIAN: " + str(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + 64)))
         self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + 64), self.camera)))
 
         self.player.ProcessInputs()
