@@ -3,7 +3,7 @@ import math
 from pytmx.util_pygame import load_pygame
 
 class Loader(object):
-    def __init__(self, display, _filename, yOffset):
+    def __init__(self, display, _filename, yOffset, startPoint):
         self.filename = _filename
         self.tilemapData = load_pygame(self.filename)
 
@@ -19,9 +19,11 @@ class Loader(object):
         self.rect = self.tileSurface.get_rect()
 
         self.groundMap = self.tilemapData.layers[0].data
-
+        print(self.groundMap)
         ## HEIGHT OFFSET
         self.yOffset = yOffset
+
+        self.startPoint = startPoint
 
     def DrawSprite(self, cameraX, cameraY):
         self.tilemapSprite = self.display.blit(self.tileSurface, (cameraX,
@@ -35,8 +37,7 @@ class Loader(object):
     def cartesianToIsometric(self, cartesian, camera):
         isometricX=math.floor((cartesian.y / self.tileSize.y) + (cartesian.x / self.tileSize.x))
         isometricY=math.floor((-cartesian.x / self.tileSize.x) + (cartesian.y / self.tileSize.y))
-        print(isometricY - math.floor(self.yOffset/self.tileSize.y))
-        return pygame.math.Vector2(isometricX, isometricY)
+        return pygame.math.Vector2(isometricX + self.startPoint.x, (isometricY * -1) + (self.startPoint.y))
 
     def Render(self):
         for layer in range(len(self.layers)):
