@@ -2,7 +2,7 @@ import pygame
 
 class Text(object):
     def __init__(self, text, size, position):
-        self.font = pygame.font.SysFont("comicsansms", size)
+        self.font = pygame.font.SysFont("arial", size)
         self.text = self.font.render(str(text), True, (0, 128, 0))
         self.size = size
         self.position = position

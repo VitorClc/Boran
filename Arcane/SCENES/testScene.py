@@ -23,8 +23,8 @@ class testScene(SceneModel):
     def Update(self):
         self.camera.getMovements(self.window.display)
         
-        self.mousePosCartText.setText("Mouse CARTESIAN: " + str(pygame.math.Vector2(pygame.mouse.get_pos())))
-        self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()), self.camera)))
+        self.mousePosCartText.setText("Mouse CARTESIAN: " + str(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + self.tilemap.tileSize.x / 4)))
+        self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + 64), self.camera)))
 
         self.player.ProcessInputs()
         self.tilemap.DrawSprite(self.camera.x, self.camera.y)
