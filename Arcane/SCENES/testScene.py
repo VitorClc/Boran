@@ -2,6 +2,8 @@ import pygame
 from Core.Scenes import SceneModel
 from Core.Tilemap import Loader
 from Core.Camera import MouseControl
+from Core.Text import Text
+
 from Player import Player
 
 class testScene(SceneModel):
@@ -15,17 +17,21 @@ class testScene(SceneModel):
 
         self.player = Player(self.window.display, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)))
 
+        self.mousePosCartText = Text("AA", 25, pygame.Vector2(0, 2))
+        self.mousePosIsoText = Text("AA", 25, pygame.Vector2(0, self.mousePosCartText.size + 5))
+
     def Update(self):
         self.camera.getMovements(self.window.display)
-        for event in pygame.event.get():
-           if event.type == pygame.MOUSEBUTTONDOWN:
-              print(self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()), self.camera))
+        
+        self.mousePosCartText.setText("Mouse CARTESIAN: " + str(pygame.math.Vector2(pygame.mouse.get_pos())))
+        self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()), self.camera)))
 
         self.player.ProcessInputs()
         self.tilemap.DrawSprite(self.camera.x, self.camera.y)
         self.player.Render(self.camera.x, self.camera.y)
 
+        self.mousePosCartText.Render(self.window.display)
+        self.mousePosIsoText.Render(self.window.display)
 
         pygame.display.update(self.tilemap.tilemapSprite)
         pygame.display.update(self.player.playerSprite)
-
