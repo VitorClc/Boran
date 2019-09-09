@@ -15,18 +15,25 @@ class testScene(SceneModel):
 
         self.camera = MouseControl([1000, -0], [500, -700], [800,0], 10)
 
-        self.player = Player(self.window.display, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)))
+        self.player = Player(self.window.display, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap.map)
 
         self.mousePosIsoText = Text("Mouse ISO", 25, pygame.Vector2(0, 0))
         self.playerPosText = Text("Player position", 25, pygame.Vector2(0, 26))
 
     def Update(self):
         self.camera.getMovements(self.window.display)
+        isoClickPos = self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + 64), self.camera)
+        self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(isoClickPos))
         
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + 64), self.camera)))
+                    self.player.grid.cleanup()
+                    start = self.player.grid.node(int(self.player.position.x), int(self.player.position.y))
+                    end = self.player.grid.node(int(isoClickPos.x), int(isoClickPos.y))
+                    path, runs = self.player.finder.find_path(start, end, self.player.grid)
+                    print('operations:', runs, 'path length:', len(path))
+                    print(self.player.grid.grid_str(path=path, start=start, end=end))
 
         self.playerPosText.setText(self.player.position)
 

@@ -18,7 +18,16 @@ class Loader(object):
         self.tileSurface = pygame.Surface((self.mapSize.x * self.tileSize.x, self.mapSize.y * self.tileSize.y + self.tileSize.y))
         self.rect = self.tileSurface.get_rect()
 
-        self.groundMap = self.tilemapData.layers[0].data
+        groundMap = self.tilemapData.layers[0].data
+
+        ### INVERT MAP MATRIX
+        self.map = [[0 for x in range(len(groundMap))] for y in range(len(groundMap[0]))] 
+
+        for w in range(0, len(groundMap)):
+            for h in range(0, len(groundMap[w])):
+                self.map[w][h] = groundMap[w][h]
+            
+        self.map = self.map[::-1]
 
         ## HEIGHT OFFSET
         self.yOffset = yOffset

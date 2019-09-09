@@ -7,7 +7,7 @@ from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 
 class Player(GameObjectBase):
-    def __init__(self, gameWindow, startPosition):
+    def __init__(self, gameWindow, startPosition, mapData):
         self.gameWindow = gameWindow
 
         self.cartesianPos = pygame.math.Vector2(startPosition.x, startPosition.y)
@@ -16,7 +16,12 @@ class Player(GameObjectBase):
         self.files = pygame.image.load("SPRITES/Human/Human_0_Idle0.png")
 
         self.position = startPosition
-    
+        self.mapData = mapData
+        self.grid = Grid(matrix=mapData)
+
+        self.finder = AStarFinder(diagonal_movement=DiagonalMovement.always)
+
+
     def cartesianToIsometric(self, cartesian):
         return pygame.math.Vector2((cartesian.x - cartesian.y), (cartesian.x + cartesian.y) / 2)
 
