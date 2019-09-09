@@ -19,7 +19,7 @@ class Loader(object):
         self.rect = self.tileSurface.get_rect()
 
         self.groundMap = self.tilemapData.layers[0].data
-        print(self.groundMap)
+
         ## HEIGHT OFFSET
         self.yOffset = yOffset
 
