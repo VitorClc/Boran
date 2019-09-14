@@ -30,28 +30,47 @@ class Player(GameObjectBase):
 
     def cartesianToIsometric(self, cartesian):
         self.isoMov = pygame.math.Vector2((cartesian.x - cartesian.y), (cartesian.x + cartesian.y) / 2)
-        self.isoReal = pygame.math.Vector2(cartesian.x / 128, math.floor(-cartesian.y / 128))
+        self.isoReal = pygame.math.Vector2(cartesian.x / 128, -cartesian.y / 128)
 
     def checkPosition(self):
         if(self.moving == True):
-            if(self.isoReal.x == self.destination.x):
+            if(self.isoReal.x == self.destination.x and -self.isoReal.y == self.destination.y):
                 self.dX = 0
-                print("Aligned X")
+                self.dY = 0
+                self.actualPath += 1
                 self.moving = False
+                self.goToPosition()
+
+            elif(self.isoReal.x == self.destination.x):
+                self.dX = 0
+
+            elif(-self.isoReal.y == self.destination.y):
+                self.dY = 0
 
     def goToPosition(self):
-        self.destination = pygame.math.Vector2(self.path[1][0], self.path[1][1])
-        
-        if(self.moving == False):
-            if(self.isoReal.x > self.destination.x):
-                self.dX = -1
-            elif(self.isoReal.x < self.destination.x):
-                self.dX = 1
-            else:
-                self.dX = 0
+        if(self.actualPath < len(self.path)):
+            if(self.moving == False):
+                self.destination = pygame.math.Vector2(self.path[self.actualPath][0], -self.path[self.actualPath][1])
+                ## CHECK X
+                if(self.isoReal.x > self.destination.x):
+                    self.dX = -1
+                elif(self.isoReal.x < self.destination.x):
+                    self.dX = 1
+                else:
+                    self.dX = 0
 
-            self.moving = True
+                ## CHECK Y
+                if(-self.isoReal.y > self.destination.y):
+                    self.dY = -1
+                elif(-self.isoReal.y < self.destination.y):
+                    self.dY = 1
+                else:
+                    self.dY = 0
 
+                self.moving = True
+        else:
+            self.path = 0
+            self.actualPath = 0
 
     def ProcessInputs(self):
         events = pygame.event.get()
@@ -69,7 +88,8 @@ class Player(GameObjectBase):
     def Render(self, cameraX, cameraY):
         self.checkPosition()
 
-        self.cartesianPos.x += self.dX
+        self.cartesianPos.x += self.dX * 4
+        self.cartesianPos.y += self.dY * 4
 
         self.cartesianToIsometric(self.cartesianPos) 
 

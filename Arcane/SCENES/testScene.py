@@ -32,7 +32,7 @@ class testScene(SceneModel):
                     start = self.player.grid.node(int(self.player.isoReal.x), int(self.player.isoReal.y))
                     end = self.player.grid.node(int(isoClickPos.x), int(isoClickPos.y))
                     self.player.path, runs = self.player.finder.find_path(start, end, self.player.grid)
-                    print(self.player.grid.grid_str(path=self.player.path, start=start, end=end))
+                    #print(self.player.grid.grid_str(path=self.player.path, start=start, end=end))
                     self.player.goToPosition()
 
         self.playerPosText.setText(self.player.isoReal)
