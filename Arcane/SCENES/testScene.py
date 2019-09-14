@@ -24,7 +24,7 @@ class testScene(SceneModel):
         self.camera.getMovements(self.window.display)
         isoClickPos = self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + 64), self.camera)
         self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(isoClickPos))
-        
+        self.player.ProcessInputs()
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -35,7 +35,7 @@ class testScene(SceneModel):
                     print('operations:', runs, 'path length:', len(path))
                     print(self.player.grid.grid_str(path=path, start=start, end=end))
 
-        self.playerPosText.setText(self.player.position)
+        self.playerPosText.setText(self.player.isoReal)
 
         self.tilemap.DrawSprite(self.camera.x, self.camera.y)
         self.player.Render(self.camera.x, self.camera.y)
