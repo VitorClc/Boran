@@ -1,10 +1,12 @@
-import pygame, math
+import pygame, math, time
 from Core.GameObject import GameObjectBase
 
 #Pathfinding lib
 from pathfinding.core.diagonal_movement import DiagonalMovement
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
+
+baseDir = "SPRITES/Human/"
 
 class Player(GameObjectBase):
     def __init__(self, gameWindow, startPosition, mapData):
@@ -14,8 +16,6 @@ class Player(GameObjectBase):
         self.isoMov = pygame.math.Vector2(startPosition.x, startPosition.y)
         self.isoReal = pygame.math.Vector2(startPosition.x, startPosition.y)
         self.destination = pygame.math.Vector2(startPosition.x, startPosition.y)
-
-        self.files = pygame.image.load("SPRITES/Human/Human_0_Idle0.png")
 
         self.mapData = mapData
         self.grid = Grid(matrix=mapData)
@@ -28,9 +28,70 @@ class Player(GameObjectBase):
         self.dX = 0
         self.dY = 0
 
+        self.actualSprite = "Human_0_Idle0.png"
+        self.sprite = pygame.image.load(baseDir + self.actualSprite)
+        self.walkCount = 0 
+        self.animationSpeed = 40
+        self.lastUpdate = 0
+
+        ##ANIMATIONS
+        self.runFront = ["Human_0_Run0.png", "Human_0_Run1.png", "Human_0_Run2.png", "Human_0_Run3.png", "Human_0_Run4.png" ,"Human_0_Run5.png" ,"Human_0_Run6.png", "Human_0_Run7.png", "Human_0_Run8.png"]
+        self.runBack = ["Human_4_Run0.png", "Human_4_Run1.png", "Human_4_Run2.png", "Human_4_Run3.png", "Human_4_Run4.png" ,"Human_4_Run5.png" ,"Human_4_Run6.png", "Human_4_Run7.png", "Human_4_Run8.png"]
+        self.runLeft = ["Human_6_Run0.png", "Human_6_Run1.png", "Human_6_Run2.png", "Human_6_Run3.png", "Human_6_Run4.png" ,"Human_6_Run5.png" ,"Human_6_Run6.png", "Human_6_Run7.png", "Human_6_Run8.png"]
+        self.runRight = ["Human_2_Run0.png", "Human_2_Run1.png", "Human_2_Run2.png", "Human_2_Run3.png", "Human_2_Run4.png" ,"Human_2_Run5.png" ,"Human_2_Run6.png", "Human_2_Run7.png", "Human_2_Run8.png"]
+
     def cartesianToIsometric(self, cartesian):
         self.isoMov = pygame.math.Vector2((cartesian.x - cartesian.y), (cartesian.x + cartesian.y) / 2)
         self.isoReal = pygame.math.Vector2(cartesian.x / 128, -cartesian.y / 128)
+
+    def getAnimation(self):
+        ## UP
+        if(self.dY == -1):
+            if(self.walkCount < len(self.runFront)):
+                self.sprite = pygame.image.load(baseDir + self.runFront[self.walkCount])
+                if pygame.time.get_ticks() - self.lastUpdate > self.animationSpeed:
+                    self.walkCount += 1
+                    self.lastUpdate = pygame.time.get_ticks()
+            else:
+                self.elapsed = 0
+                self.walkCount = 0
+
+        ## DOWN
+        elif(self.dY == 1):
+            if(self.walkCount < len(self.runFront)):
+                self.sprite = pygame.image.load(baseDir + self.runBack[self.walkCount])
+                if pygame.time.get_ticks() - self.lastUpdate > self.animationSpeed:
+                    self.walkCount += 1
+                    self.lastUpdate = pygame.time.get_ticks()
+            else:
+                self.elapsed = 0
+                self.walkCount = 0
+
+        ## LEFT
+        elif(self.dX == -1):
+            if(self.walkCount < len(self.runFront)):
+                self.sprite = pygame.image.load(baseDir + self.runLeft[self.walkCount])
+                if pygame.time.get_ticks() - self.lastUpdate > self.animationSpeed:
+                    self.walkCount += 1
+                    self.lastUpdate = pygame.time.get_ticks()
+            else:
+                self.elapsed = 0
+                self.walkCount = 0
+
+        ## RIGHT
+        elif(self.dX == 1):
+            if(self.walkCount < len(self.runFront)):
+                self.sprite = pygame.image.load(baseDir + self.runRight[self.walkCount])
+                if pygame.time.get_ticks() - self.lastUpdate > self.animationSpeed:
+                    self.walkCount += 1
+                    self.lastUpdate = pygame.time.get_ticks()
+            else:
+                self.elapsed = 0
+                self.walkCount = 0
+
+        if(self.dY == 0 and self.dX == 0):
+            self.sprite = pygame.image.load(baseDir + "Human_0_Idle0.png")
+
 
     def checkPosition(self):
         if(self.moving == True):
@@ -93,4 +154,5 @@ class Player(GameObjectBase):
 
         self.cartesianToIsometric(self.cartesianPos) 
 
-        self.playerSprite = self.gameWindow.blit(self.files, (self.isoMov.x + cameraX, self.isoMov.y + cameraY))
+        self.getAnimation()
+        self.playerSprite = self.gameWindow.blit(self.sprite, (self.isoMov.x + cameraX, self.isoMov.y + cameraY))
