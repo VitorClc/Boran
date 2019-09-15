@@ -1,6 +1,7 @@
 import pygame,sys
 from Core.Window import GameWindow
 from Core.Scenes import SceneManager
+from Core.Text import Text
 
 from SCENES.testScene import testScene
 
@@ -17,10 +18,10 @@ running = True
 sceneManager.InitScene()
 
 clock = pygame.time.Clock()
+FPS = Text("FPS", 25, pygame.Vector2(1810, 0))
 
 while running:
     gameWindow.display.fill((0,0,0))
     sceneManager.UpdateScene()
-    #print(clock.get_fps())
     clock.tick(targetFPS)
     pygame.display.flip()

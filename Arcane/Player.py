@@ -193,10 +193,18 @@ class Player(GameObjectBase):
             self.path = 0
             self.actualPath = 0
 
-    def ProcessInputs(self):
+    def ProcessInputs(self, isoClickPos):
         events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
+                    end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
+                    self.path = self.finder.find_path(start, end, self.grid)[0]
+                    #print(self.player.grid.grid_str(path=self.player.path, start=start, end=end))
+                    self.goToPosition()
+                    self.grid.cleanup()
 
-    def Render(self, cameraX, cameraY):
+    def Render(self, camera):
         self.checkPosition()
 
         self.cartesianPos.x += self.dX * 4
@@ -205,4 +213,4 @@ class Player(GameObjectBase):
         self.cartesianToIsometric(self.cartesianPos) 
 
         self.getAnimation()
-        self.playerSprite = self.gameWindow.blit(self.sprite, (self.isoMov.x + cameraX, self.isoMov.y + cameraY))
+        self.playerSprite = self.gameWindow.blit(self.sprite, (self.isoMov.x + camera.x, self.isoMov.y + camera.y))
