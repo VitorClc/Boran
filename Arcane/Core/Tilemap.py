@@ -34,9 +34,11 @@ class Loader(object):
 
         self.startPoint = startPoint
 
-    def DrawSprite(self, cameraX, cameraY):
-        self.tilemapSprite = self.display.blit(self.groundSurface, (cameraX,
-                                                                  cameraY + self.tileSize.y / 2 - (self.yOffset * self.tileSize.y / 2) - self.tileSize.y / 2))
+        self.Create()
+        
+    def DrawGround(self, camera):
+        self.tilemapSprite = self.display.blit(self.groundSurface, (camera.x,
+                                                                  camera.y + self.tileSize.y / 2 - (self.yOffset * self.tileSize.y / 2) - self.tileSize.y / 2))
 
     def isometricToCartesian(self, isometric):
         cartesianX=(2*isometric.y+isometric.x)/2 * 128;
@@ -48,7 +50,7 @@ class Loader(object):
         isometricY=math.floor((-cartesian.x / self.tileSize.x) + (cartesian.y / self.tileSize.y))
         return pygame.math.Vector2(isometricX + self.startPoint.x, (isometricY * -1) + (self.startPoint.y))
 
-    def Render(self):
+    def Create(self):
         for layer in range(len(self.layers)):
             for x in range(0, int(self.mapSize.x)):
                 for y in range(0, int(self.mapSize.y)):
