@@ -10,7 +10,7 @@ class testScene(SceneModel):
     def Start(self, _gameWindow):
         self.window = _gameWindow
 
-        self.tilemap = Loader(self.window.display, "MAPS/testScene.tmx", 4, pygame.math.Vector2(0,-1))
+        self.tilemap = Loader(self.window.display, "MAPS/test2.tmx", 1, pygame.math.Vector2(-3, 2))
         
         self.player = Player(self.window.display, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap.map)
         self.camera = PlayerFollow(self.player.cartesianPos)
@@ -28,9 +28,14 @@ class testScene(SceneModel):
         self.playerPosText.setText(self.player.isoReal)
 
         self.tilemap.DrawGround(self.camera)
-        self.player.Render(self.camera)
-        self.tilemap.DrawWalls(self.camera)
 
+        if(self.player.mapData[int(self.player.isoReal.x) + 1][int(self.player.isoReal.y)] == 0):
+            self.player.Render(self.camera)
+            self.tilemap.DrawWalls(self.camera)
+        elif(self.player.mapData[int(self.player.isoReal.x) + 1][int(self.player.isoReal.y)] == 1):
+            self.tilemap.DrawWalls(self.camera)
+            self.player.Render(self.camera)
+            
         self.mousePosIsoText.Render(self.window.display)
         self.playerPosText.Render(self.window.display)
 
