@@ -23,7 +23,7 @@ runRightUp = ["Human_1_Run0.png", "Human_1_Run1.png", "Human_1_Run2.png", "Human
 stopSprites = ["Human_0_Idle0.png", "Human_4_Idle0.png", "Human_6_Idle0.png", "Human_2_Idle0.png", "Human_5_Idle0.png" ,"Human_7_Idle0.png" ,"Human_3_Idle0.png", "Human_1_Idle0.png"]
 
 class Player(GameObjectBase):
-    def __init__(self, gameWindow, startPosition, mapData):
+    def __init__(self, gameWindow, startPosition, tilemap):
         self.gameWindow = gameWindow
 
         self.cartesianPos = pygame.math.Vector2(startPosition.x, startPosition.y)
@@ -31,8 +31,8 @@ class Player(GameObjectBase):
         self.isoReal = pygame.math.Vector2(startPosition.x, startPosition.y)
         self.destination = pygame.math.Vector2(startPosition.x, startPosition.y)
 
-        self.mapData = mapData
-        self.grid = Grid(matrix=mapData)
+        self.mapData = tilemap.map
+        self.grid = Grid(matrix=tilemap.map)
 
         self.finder = AStarFinder(diagonal_movement=DiagonalMovement.always)
         self.path = 0
@@ -48,6 +48,8 @@ class Player(GameObjectBase):
         self.walkCount = 0 
         self.animationSpeed = 40
         self.lastUpdate = 0
+
+        self.tilemap = tilemap
 
     def cartesianToIsometric(self, cartesian):
         self.isoMov = pygame.math.Vector2((cartesian.x - cartesian.y), (cartesian.x + cartesian.y) / 2)
@@ -204,6 +206,15 @@ class Player(GameObjectBase):
                     self.goToPosition()
                     self.grid.cleanup()
 
+    def checkOverlap(self):
+        if(self.isoReal.x + 1 < self.tilemap.mapSize.x and self.isoReal.x - 1 < self.tilemap.mapSize.y):
+            if(self.mapData[int(self.isoReal.y)][int(self.isoReal.x) + 1] == 0 or self.mapData[int(self.isoReal.y) - 1][int(self.isoReal.x)] == 0):
+                return True
+            elif(self.mapData[int(self.isoReal.y)][int(self.isoReal.x) - 1] == 0 or self.mapData[int(self.isoReal.y) + 1][int(self.isoReal.x)] == 0):
+                return False
+        else:
+            return True
+            
     def Render(self, camera):
         self.checkPosition()
 
@@ -214,3 +225,4 @@ class Player(GameObjectBase):
 
         self.getAnimation()
         self.playerSprite = self.gameWindow.blit(self.sprite, (self.isoMov.x + camera.x, self.isoMov.y + camera.y))
+        
