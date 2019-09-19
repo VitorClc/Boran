@@ -29,9 +29,11 @@ class testScene(SceneModel):
 
         self.tilemap.DrawGround(self.camera)
         self.player.Render(self.camera)
+        self.tilemap.DrawWalls(self.camera)
 
         self.mousePosIsoText.Render(self.window.display)
         self.playerPosText.Render(self.window.display)
 
-        pygame.display.update(self.tilemap.tilemapSprite)
+        pygame.display.update(self.tilemap.groundSprite)
+        pygame.display.update(self.tilemap.wallSprite)
         pygame.display.update(self.player.playerSprite)

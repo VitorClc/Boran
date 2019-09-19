@@ -15,8 +15,12 @@ class Loader(object):
         self.mapSize = pygame.Vector2(self.tilemapData.width, self.tilemapData.height)
         self.layers = self.tilemapData.layers
 
+        #### SURFACES
         self.groundSurface = pygame.Surface((self.mapSize.x * self.tileSize.x, self.mapSize.y * self.tileSize.y + (self.tileSize.y * 2)))
         self.groundRect = self.groundSurface.get_rect()
+
+        self.wallSurface = pygame.Surface((self.mapSize.x * self.tileSize.x, self.mapSize.y * self.tileSize.y + (self.tileSize.y * 2)), pygame.SRCALPHA)
+        self.wallRect = self.wallSurface.get_rect()
 
         groundMap = self.tilemapData.layers[0].data
 
@@ -35,9 +39,13 @@ class Loader(object):
         self.startPoint = startPoint
 
         self.Create()
-        
+
     def DrawGround(self, camera):
-        self.tilemapSprite = self.display.blit(self.groundSurface, (camera.x,
+        self.groundSprite = self.display.blit(self.groundSurface, (camera.x,
+                                                                  camera.y + self.tileSize.y / 2 - (self.yOffset * self.tileSize.y / 2) - self.tileSize.y / 2))
+
+    def DrawWalls(self, camera):
+        self.wallSprite = self.display.blit(self.wallSurface, (camera.x,
                                                                   camera.y + self.tileSize.y / 2 - (self.yOffset * self.tileSize.y / 2) - self.tileSize.y / 2))
 
     def isometricToCartesian(self, isometric):
@@ -61,4 +69,6 @@ class Loader(object):
 
                         if(layer == 0):
                             self.groundSurface.blit(tile, (xPos + self.groundRect.centerx - self.tileSize.x / 2, yPos - self.groundRect.centery + self.tileSize.y / 2 + (self.yOffset * self.tileSize.y / 2) + self.tileSize.y))
+                        elif(layer == 1):
+                            self.wallSurface.blit(tile, (xPos + self.wallRect.centerx - self.tileSize.x / 2, yPos - self.wallRect.centery + self.tileSize.y / 2 + (self.yOffset * self.tileSize.y / 2) + self.tileSize.y))
                         
