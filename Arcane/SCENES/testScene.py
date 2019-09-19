@@ -16,7 +16,7 @@ class testScene(SceneModel):
         self.camera = PlayerFollow(self.player.cartesianPos)
         
         #self.mousePosIsoText = Text("Mouse ISO", 25, pygame.Vector2(0, 0))
-        self.playerPosText = Text("Player position", 25, pygame.Vector2(0, 26))
+        #self.playerPosText = Text("Player position", 25, pygame.Vector2(0, 26))
 
     def Update(self):
         isoClickPos = self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + 64), self.camera)
@@ -26,7 +26,7 @@ class testScene(SceneModel):
         
         self.camera.getPlayerPosition(self.player.isoMov)
 
-        self.playerPosText.setText(self.player.mapData[int(self.player.isoReal.y)][int(self.player.isoReal.x + 1)])
+        #self.playerPosText.setText(self.player.mapData[int(self.player.isoReal.y)][int(self.player.isoReal.x + 1)])
 
         self.tilemap.DrawGround(self.camera)
 
@@ -38,7 +38,7 @@ class testScene(SceneModel):
             self.player.Render(self.camera)
             
         #self.mousePosIsoText.Render(self.window.display)
-        self.playerPosText.Render(self.window.display)
+        #self.playerPosText.Render(self.window.display)
 
         pygame.display.update(self.player.playerSprite)
         pygame.display.update(self.tilemap.groundSprite)

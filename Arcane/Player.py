@@ -208,12 +208,16 @@ class Player(GameObjectBase):
 
     def checkOverlap(self):
         if(self.isoReal.x + 1 < self.tilemap.mapSize.x and self.isoReal.x - 1 < self.tilemap.mapSize.y):
-            if(self.mapData[int(self.isoReal.y)][int(self.isoReal.x) + 1] == 0 or self.mapData[int(self.isoReal.y) - 1][int(self.isoReal.x)] == 0):
+            if(self.mapData[int(self.isoReal.y)][int(self.isoReal.x + 1)] == 0 or self.mapData[int(self.isoReal.y - 1)][int(self.isoReal.x)] == 0):
                 return True
-            elif(self.mapData[int(self.isoReal.y)][int(self.isoReal.x) - 1] == 0 or self.mapData[int(self.isoReal.y) + 1][int(self.isoReal.x)] == 0):
+            elif(self.mapData[int(self.isoReal.y)][int(self.isoReal.x - 1)] == 0 or self.mapData[int(self.isoReal.y + 1)][int(self.isoReal.x)] == 0):
                 return False
-        else:
-            return True
+
+            ### Diagonal Check
+            elif(self.mapData[int(self.isoReal.y - 1)][int(self.isoReal.x + 1)] == 0):
+                return True
+            else:
+                return False
             
     def Render(self, camera):
         self.checkPosition()
