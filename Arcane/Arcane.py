@@ -21,6 +21,6 @@ clock = pygame.time.Clock()
 
 while running:
     clock.tick(targetFPS)
-    gameWindow.display.fill((0,0,0))
+    #gameWindow.display.fill((0,0,0))
     sceneManager.UpdateScene()
-    print(clock.get_fps())
+    #print(clock.get_fps())
