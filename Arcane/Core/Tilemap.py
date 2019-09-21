@@ -16,10 +16,10 @@ class Loader(object):
         self.layers = self.tilemapData.layers
 
         #### SURFACES
-        self.groundSurface = pygame.Surface((self.mapSize.x * self.tileSize.x, self.mapSize.y * self.tileSize.y + (self.tileSize.y * 2)))
+        self.groundSurface = pygame.Surface(((self.mapSize.x * self.tileSize.x) + 32, self.mapSize.y * self.tileSize.y + (self.tileSize.y * 2)))
         self.groundRect = self.groundSurface.get_rect()
 
-        self.wallSurface = pygame.Surface((self.mapSize.x * self.tileSize.x, self.mapSize.y * self.tileSize.y + (self.tileSize.y * 2)), pygame.SRCALPHA)
+        self.wallSurface = pygame.Surface(((self.mapSize.x * self.tileSize.x) + 32, self.mapSize.y * self.tileSize.y + (self.tileSize.y * 2)), pygame.SRCALPHA)
         self.wallRect = self.wallSurface.get_rect()
 
         groundMap = self.tilemapData.layers[0].data
@@ -41,11 +41,11 @@ class Loader(object):
         self.Create()
 
     def DrawGround(self, camera):
-        self.groundSprite = self.display.blit(self.groundSurface, (camera.x,
+        self.groundSprite = self.display.blit(self.groundSurface, (camera.x - 16,
                                                                   camera.y + self.tileSize.y / 2 - (self.yOffset * self.tileSize.y / 2) - self.tileSize.y / 2))
 
     def DrawWalls(self, camera):
-        self.wallSprite = self.display.blit(self.wallSurface, (camera.x,
+        self.wallSprite = self.display.blit(self.wallSurface, (camera.x - 16,
                                                                   camera.y + self.tileSize.y / 2 - (self.yOffset * self.tileSize.y / 2) - self.tileSize.y / 2))
 
     def isometricToCartesian(self, isometric):

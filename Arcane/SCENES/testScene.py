@@ -27,7 +27,12 @@ class testScene(SceneModel):
         self.camera.getPlayerPosition(self.player.isoMov)
 
         #self.playerPosText.setText(self.player.mapData[int(self.player.isoReal.y)][int(self.player.isoReal.x + 1)])
+            
+        #self.mousePosIsoText.Render(self.window.display)
+        #self.playerPosText.Render(self.window.display)
 
+        
+    def Render(self):
         self.tilemap.DrawGround(self.camera)
 
         if(self.player.checkOverlap() == True):
@@ -36,12 +41,7 @@ class testScene(SceneModel):
         else:
             self.tilemap.DrawWalls(self.camera)
             self.player.Render(self.camera)
-            
-        #self.mousePosIsoText.Render(self.window.display)
-        #self.playerPosText.Render(self.window.display)
 
-        
-    def Render(self):
         pygame.display.update(self.player.playerSprite)
         pygame.display.update(self.tilemap.groundSprite)
         pygame.display.update(self.tilemap.wallSprite)
