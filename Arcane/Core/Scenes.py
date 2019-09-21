@@ -11,7 +11,9 @@ class SceneManager:
         self.actualScene.Start(self, self.window)
 
     def UpdateScene(self):
+        self.window.display.fill((0,0,0))
         self.actualScene.Update(self)
+        self.actualScene.Render(self)
         self.actualScene.CheckQuit(self)
 
 class SceneModel(ABC):
@@ -22,6 +24,10 @@ class SceneModel(ABC):
     @abstractmethod
     def Update(self):
         print("Updating scene")
+    
+    @abstractmethod
+    def Render(self):
+        print("Rendering scene")
 
     def CheckQuit(self):
         for event in pygame.event.get():

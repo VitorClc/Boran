@@ -24,4 +24,3 @@ while running:
     gameWindow.display.fill((0,0,0))
     sceneManager.UpdateScene()
     print(clock.get_fps())
-    pygame.display.flip()

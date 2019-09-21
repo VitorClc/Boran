@@ -40,6 +40,8 @@ class testScene(SceneModel):
         #self.mousePosIsoText.Render(self.window.display)
         #self.playerPosText.Render(self.window.display)
 
+        
+    def Render(self):
         pygame.display.update(self.player.playerSprite)
         pygame.display.update(self.tilemap.groundSprite)
         pygame.display.update(self.tilemap.wallSprite)
