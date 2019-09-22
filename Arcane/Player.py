@@ -199,12 +199,13 @@ class Player(GameObjectBase):
         pygame.event.get()
         mouseClick = pygame.mouse.get_pressed()         
         if mouseClick[0] == 1:
-            start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
-            end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
-            self.path = self.finder.find_path(start, end, self.grid)[0]
-            #print(self.player.grid.grid_str(path=self.player.path, start=start, end=end))
-            self.goToPosition()
-            self.grid.cleanup()
+            if(int(isoClickPos.x) >= 0 and int(isoClickPos.x) < self.tilemap.mapSize.x and int(isoClickPos.y) >= 0 and int(isoClickPos.y) <self.tilemap.mapSize.y):
+                start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
+                end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
+                self.path = self.finder.find_path(start, end, self.grid)[0]
+                #print(self.player.grid.grid_str(path=self.player.path, start=start, end=end))
+                self.goToPosition()
+                self.grid.cleanup()
 
     def checkOverlap(self):
         if(self.isoReal.x + 1 < self.tilemap.mapSize.x and self.isoReal.x - 1 < self.tilemap.mapSize.y):
