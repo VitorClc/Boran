@@ -15,23 +15,16 @@ class testScene(SceneModel):
         self.player = Player(self.window.display, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap)
         self.camera = PlayerFollow(self.player.cartesianPos)
         
-        #self.mousePosIsoText = Text("Mouse ISO", 25, pygame.Vector2(0, 0))
-        #self.playerPosText = Text("Player position", 25, pygame.Vector2(0, 26))
+        self.mousePosIsoText = Text("Mouse ISO", 25, pygame.Vector2(0, 0), self.window.display, (255,0,0))
 
     def Update(self):
         isoClickPos = self.tilemap.cartesianToIsometric(pygame.math.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - (self.tilemap.yOffset * self.tilemap.tileSize.y) + 64), self.camera)
-        #self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(isoClickPos))
+        self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(isoClickPos))
 
         self.player.ProcessInputs(isoClickPos)
         
         self.camera.getPlayerPosition(self.player.isoMov)
 
-        #self.playerPosText.setText(self.player.mapData[int(self.player.isoReal.y)][int(self.player.isoReal.x + 1)])
-            
-        #self.mousePosIsoText.Render(self.window.display)
-        #self.playerPosText.Render(self.window.display)
-
-        
     def Render(self):
         self.tilemap.DrawGround(self.camera)
 
@@ -42,6 +35,9 @@ class testScene(SceneModel):
             self.tilemap.DrawWalls(self.camera)
             self.player.Render(self.camera)
 
+        self.mousePosIsoText.drawText()
+
         pygame.display.update(self.player.playerSprite)
         pygame.display.update(self.tilemap.groundSprite)
         pygame.display.update(self.tilemap.wallSprite)
+        pygame.display.update(self.mousePosIsoText.textSprite)

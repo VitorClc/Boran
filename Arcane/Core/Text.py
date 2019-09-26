@@ -1,14 +1,16 @@
 import pygame
 
 class Text(object):
-    def __init__(self, text, size, position):
+    def __init__(self, text, size, position, display, color):
         self.font = pygame.font.SysFont("arial", size)
-        self.text = self.font.render(str(text), True, (0, 128, 0))
+        self.text = self.font.render(str(text), True, color)
         self.size = size
+        self.color = color
         self.position = position
+        self.display = display
 
     def setText(self, text):
-        self.text = self.font.render(str(text), True, (0, 128, 0))  
+        self.text = self.font.render(str(text), True, self.color)
 
-    def Render(self, display):
-        display.blit(self.text, self.position)
+    def drawText(self):
+        self.textSprite = self.display.blit(self.text, self.position)

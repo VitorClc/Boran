@@ -208,7 +208,7 @@ class Player(GameObjectBase):
                 self.grid.cleanup()
 
     def checkOverlap(self):
-        if(self.isoReal.x + 1 < self.tilemap.mapSize.x and self.isoReal.x - 1 < self.tilemap.mapSize.y):
+        if(self.isoReal.x + 1 <= self.tilemap.mapSize.x and self.isoReal.y + 1 <= self.tilemap.mapSize.y):
             if(self.mapData[int(self.isoReal.y)][int(self.isoReal.x + 1)] == 0 or self.mapData[int(self.isoReal.y - 1)][int(self.isoReal.x)] == 0):
                 return True
             elif(self.mapData[int(self.isoReal.y)][int(self.isoReal.x - 1)] == 0 or self.mapData[int(self.isoReal.y + 1)][int(self.isoReal.x)] == 0):
