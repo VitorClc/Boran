@@ -34,7 +34,7 @@ class Player(GameObjectBase):
         self.mapData = tilemap.map
         self.grid = Grid(matrix=tilemap.map)
 
-        self.finder = AStarFinder(diagonal_movement=DiagonalMovement.always)
+        self.finder = AStarFinder(diagonal_movement=DiagonalMovement.only_when_no_obstacle)
         self.path = 0
         self.actualPath = 0
         self.moving = False
@@ -208,14 +208,14 @@ class Player(GameObjectBase):
                 self.grid.cleanup()
 
     def checkOverlap(self):
-        if(self.isoReal.x + 1 <= self.tilemap.mapSize.x and self.isoReal.y + 1 <= self.tilemap.mapSize.y):
-            if(self.mapData[int(self.isoReal.y)][int(self.isoReal.x + 1)] == 0 or self.mapData[int(self.isoReal.y - 1)][int(self.isoReal.x)] == 0):
+        if(self.isoReal.y + 2 < self.tilemap.mapSize.x and self.isoReal.x + 2 < self.tilemap.mapSize.y):
+            if(self.mapData[round(self.isoReal.y)][int(self.isoReal.x + 1)] == 0 or self.mapData[round(self.isoReal.y - 1)][round(self.isoReal.x)] == 0):
                 return True
-            elif(self.mapData[int(self.isoReal.y)][int(self.isoReal.x - 1)] == 0 or self.mapData[int(self.isoReal.y + 1)][int(self.isoReal.x)] == 0):
+            elif(self.mapData[round(self.isoReal.y)][int(self.isoReal.x - 1)] == 0 or self.mapData[round(self.isoReal.y + 1)][round(self.isoReal.x)] == 0):
                 return False
 
             ### Diagonal Check
-            elif(self.mapData[int(self.isoReal.y - 1)][int(self.isoReal.x + 1)] == 0):
+            elif(self.mapData[round(self.isoReal.y - 1)][round(self.isoReal.x + 1)] == 0):
                 return True
             else:
                 return False
