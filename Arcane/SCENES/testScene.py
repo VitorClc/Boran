@@ -28,12 +28,8 @@ class testScene(SceneModel):
     def Render(self):
         self.tilemap.DrawGround(self.camera)
 
-        if(self.player.checkOverlap() == True):
-            self.player.Render(self.camera)            
-            self.tilemap.DrawWalls(self.camera)
-        else:
-            self.tilemap.DrawWalls(self.camera)
-            self.player.Render(self.camera)
+        self.player.Render(self.camera)            
+        self.tilemap.DrawWalls(self.camera)
 
         self.mousePosIsoText.drawText()
 

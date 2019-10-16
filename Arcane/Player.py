@@ -207,19 +207,6 @@ class Player(GameObjectBase):
                 self.goToPosition()
                 self.grid.cleanup()
 
-    def checkOverlap(self):
-        if(self.isoReal.y + 2 < self.tilemap.mapSize.x and self.isoReal.x + 2 < self.tilemap.mapSize.y):
-            if(self.mapData[round(self.isoReal.y)][int(self.isoReal.x + 1)] == 0 or self.mapData[round(self.isoReal.y - 1)][round(self.isoReal.x)] == 0):
-                return True
-            elif(self.mapData[round(self.isoReal.y)][int(self.isoReal.x - 1)] == 0 or self.mapData[round(self.isoReal.y + 1)][round(self.isoReal.x)] == 0):
-                return False
-
-            ### Diagonal Check
-            elif(self.mapData[round(self.isoReal.y - 1)][round(self.isoReal.x + 1)] == 0):
-                return True
-            else:
-                return False
-            
     def Render(self, camera):
         self.checkPosition()
 
