@@ -10,7 +10,7 @@ class SceneManager:
     def UpdateScene(self):
         self.window.display.fill((0,0,0))
         pressed_keys = pygame.key.get_pressed()
-        
+
         filtered_events = []
         for event in pygame.event.get():
             quit_attempt = False
@@ -24,8 +24,9 @@ class SceneManager:
                 self.activeScene.Terminate()
             else:
                 filtered_events.append(event)
+            
+            self.activeScene.ProcessInput(event, pressed_keys)
         
-        self.activeScene.ProcessInput(filtered_events, pressed_keys)
         self.activeScene.Update()
         self.activeScene.Render()
         
@@ -38,7 +39,7 @@ class SceneModel():
     def Start(self, _gameWindow):
         pass
 
-    def ProcessInput(self, events, pressed_keys):
+    def ProcessInput(self, event, pressed_keys):
         pass
 
     def Update(self):
