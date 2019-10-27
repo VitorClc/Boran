@@ -1,37 +1,54 @@
 import pygame, sys
-from abc import ABC, abstractmethod
 
 class SceneManager:
     def __init__(self, _scenesArray, _sceneIndex, _gameWindow):
        self.scenesArray = _scenesArray
-       self.actualScene = self.scenesArray[_sceneIndex]
+       self.activeScene = self.scenesArray[_sceneIndex]
        self.window = _gameWindow
-
-    def InitScene(self):
-        self.actualScene.Start(self, self.window)
+       self.activeScene.Start(self.window)
 
     def UpdateScene(self):
         self.window.display.fill((0,0,0))
-        self.actualScene.Update(self)
-        self.actualScene.Render(self)
-        self.actualScene.CheckQuit(self)
-
-class SceneModel(ABC):
-    @abstractmethod
-    def Init(self):
-        print("Starting scene")
-   
-    @abstractmethod
-    def Update(self):
-        print("Updating scene")
-    
-    @abstractmethod
-    def Render(self):
-        print("Rendering scene")
-
-    def CheckQuit(self):
+        pressed_keys = pygame.key.get_pressed()
+        
+        filtered_events = []
         for event in pygame.event.get():
+            quit_attempt = False
             if event.type == pygame.QUIT:
-                running = False
-                pygame.quit()
-                sys.exit(0)
+                quit_attempt = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    quit_attempt = True
+            
+            if quit_attempt:
+                self.activeScene.Terminate()
+            else:
+                filtered_events.append(event)
+        
+        self.activeScene.ProcessInput(filtered_events, pressed_keys)
+        self.activeScene.Update()
+        self.activeScene.Render()
+        
+        self.activeScene = self.activeScene.next
+        
+class SceneModel():
+    def __init__(self):
+        self.next = self
+    
+    def Start(self, _gameWindow):
+        pass
+
+    def ProcessInput(self, events, pressed_keys):
+        pass
+
+    def Update(self):
+        pass
+
+    def Render(self, screen):
+        pass
+
+    def SwitchToScene(self, next_scene):
+        self.next = next_scene
+    
+    def Terminate(self):
+        self.SwitchToScene(None)
