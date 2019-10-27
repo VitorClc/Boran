@@ -7,8 +7,10 @@ from Core.Text import Text
 from Player import Player
 
 class testScene(SceneModel):
-    def Start(self, _gameWindow):
+    def Start(self, _gameWindow, sceneManager):
         self.window = _gameWindow
+
+        self.sceneManager = sceneManager
 
         self.tilemap = Loader(self.window.display, "MAPS/testScene.tmx", 4, pygame.math.Vector2(0, -1))
         

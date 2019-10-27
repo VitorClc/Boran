@@ -2,13 +2,12 @@ import pygame, sys
 
 class SceneManager:
     def __init__(self, _scenesArray, _sceneIndex, _gameWindow):
-       self.scenesArray = _scenesArray
-       self.activeScene = self.scenesArray[_sceneIndex]
-       self.window = _gameWindow
-       self.activeScene.Start(self.window)
+        self.scenesArray = _scenesArray
+        self.activeScene = self.scenesArray[_sceneIndex]
+        self.window = _gameWindow
+        self.activeScene.Start(self.window, self)
 
     def UpdateScene(self):
-        self.window.display.fill((0,0,0))
         pressed_keys = pygame.key.get_pressed()
 
         filtered_events = []
@@ -18,7 +17,7 @@ class SceneManager:
                 quit_attempt = True
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    quit_attempt = True
+                    self.activeScene.SwitchToScene(self.scenesArray[0])
             
             if quit_attempt:
                 self.activeScene.Terminate()
@@ -35,8 +34,10 @@ class SceneManager:
 class SceneModel():
     def __init__(self):
         self.next = self
-    
-    def Start(self, _gameWindow):
+
+    def Start(self, _gameWindow, sceneManager):
+        self.window = _gameWindow
+        self.sceneManager = sceneManager
         pass
 
     def ProcessInput(self, event, pressed_keys):
@@ -50,6 +51,7 @@ class SceneModel():
 
     def SwitchToScene(self, next_scene):
         self.next = next_scene
-    
+        self.next.Start(self.window, self.sceneManager)
+        
     def Terminate(self):
         self.SwitchToScene(None)

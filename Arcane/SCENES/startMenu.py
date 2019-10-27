@@ -5,14 +5,14 @@ from Core.Scenes import SceneModel
 from Core.Button import Button
 
 class startMenu(SceneModel):
-    def Start(self, _gameWindow):
+    def Start(self, _gameWindow, sceneManager):
         self.window = _gameWindow
-
+        self.sceneManager = sceneManager
+        
         self.screenCenter = Vector2(self.window.windowWidth / 2, self.window.windowHeight / 2)
-        print(self.screenCenter)
         
         def startGame():
-            print("click!")
+            self.SwitchToScene(self.sceneManager.scenesArray[1])
 
         self.startButton = Button(self.window, (255,0,0), (0,0,255), Vector2(self.screenCenter.x, self.screenCenter.y - 100), Vector2(300,80), "Iniciar Jogo", startGame)
 
