@@ -8,16 +8,19 @@ class startMenu(SceneModel):
     def Start(self, _gameWindow):
         self.window = _gameWindow
 
-        def testClick():
+        self.screenCenter = Vector2(self.window.windowWidth / 2, self.window.windowHeight / 2)
+        print(self.screenCenter)
+        
+        def startGame():
             print("click!")
 
-        self.test = Button(self.window, testClick, (255,0,0), (0,0,255), Vector2(0,0), Vector2(200,100), "Test")
+        self.startButton = Button(self.window, (255,0,0), (0,0,255), Vector2(self.screenCenter.x, self.screenCenter.y - 100), Vector2(300,80), "Iniciar Jogo", startGame)
 
     def ProcessInput(self, event, pressed_keys):
         pos = pygame.mouse.get_pos()
         
-        self.test.HandleInput(pos, event)
+        self.startButton.HandleInput(pos, event)
             
     def Render(self):
-        self.test.Draw()
-        pygame.display.update(self.test.buttonRect)
+        self.startButton.Draw()
+        pygame.display.update(self.startButton.buttonRect)
