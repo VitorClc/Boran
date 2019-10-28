@@ -12,7 +12,7 @@ pygame.init()
 gameWindow = GameWindow(1920, 1080, "Arcane")
 
 scenes = [startMenu(),testScene()]
-sceneManager = SceneManager(scenes, 0, gameWindow)
+sceneManager = SceneManager(scenes, 1, gameWindow)
 
 clock = pygame.time.Clock()
 
