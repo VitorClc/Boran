@@ -1,6 +1,7 @@
 import pygame, math
+
 from Core.Scenes import SceneModel
-from Core.Text import Text
+from Core.Tilemap import Loader
 
 class testScene(SceneModel):
     def Start(self, _gameWindow, sceneManager):
@@ -9,11 +10,12 @@ class testScene(SceneModel):
         self.sceneManager = sceneManager
 
         self.ground = pygame.sprite.LayeredUpdates()
-        self.playerLayer = pygame.sprite.LayeredUpdates()
         self.wall = pygame.sprite.LayeredUpdates()
 
+        self.tilemap = Loader(self.window.display, "MAPS/testScene.tmx", self.ground)
+
     def Update(self):
-        pass
+        self.ground.update()
         
     def Render(self):
-        pass
+        self.ground.draw(self.window.display)
