@@ -7,10 +7,8 @@ wall = pygame.image.load(tileDir + 'block.png')
 ground = pygame.image.load(tileDir + 'floor.png')
 
 class Loader():
-    def __init__(self, gameWindow, _filename, groundGroup, wallGroup):
+    def __init__(self, _filename, groundGroup, wallGroup):
         filename = _filename
-
-        self.window = gameWindow
         
         self.groundGroup = groundGroup
         self.wallGroup = wallGroup
@@ -22,9 +20,10 @@ class Loader():
 
         self.layers = self.tilemapData.layers
 
-        self.Generate()
-
-    def Generate(self):
+    def Generate(self, window, yOffset):
+        self.window = window
+        centered_x = self.window.get_rect().centerx
+       
         for x in range(0, int(self.mapSize.x)):
             for y in range(0, int(self.mapSize.y)):
                 tile = self.tilemapData.get_tile_properties(x,y,0)
@@ -32,10 +31,7 @@ class Loader():
                     xPos = (x - y) * self.tileSize.x / 2
                     yPos = (y + x) * self.tileSize.y / 2
 
-                    centered_x = self.window.get_rect().centerx
-                    centered_y = self.window.get_rect().centery/2
-
-                    Tile(self.groundGroup, ground.convert_alpha(), 0, (xPos + centered_x, yPos - centered_y))
+                    Tile(self.groundGroup, ground.convert_alpha(), 0, (xPos + centered_x, yPos + 64))
         
         for x in range(0, int(self.mapSize.x)):
             for y in range(0, int(self.mapSize.y)):
@@ -44,18 +40,7 @@ class Loader():
                     xPos = (x - y) * self.tileSize.x / 2
                     yPos = (y + x) * self.tileSize.y / 2
 
-                    centered_x = self.window.get_rect().centerx
-                    centered_y = self.window.get_rect().centery/2
-
-                    Tile(self.wallGroup, wall.convert_alpha(), 1, (xPos + centered_x, yPos - centered_y))
-
-
-    def Update(self, camera):
-        #for i in len(self.groundGroup.sprites):
-        #    print(i)
-
-        #self.wallGroup.update()
-        pass
+                    Tile(self.wallGroup, wall.convert_alpha(), 1, (xPos + centered_x, yPos + 64))
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, group, image, layer, pos):

@@ -5,7 +5,7 @@ from Core.Text import Text
 
 from SCENES.testScene import testScene
 from SCENES.startMenu import startMenu
-
+    
 targetFPS = 60
 
 pygame.init()
@@ -17,7 +17,5 @@ sceneManager = SceneManager(scenes, 1, gameWindow)
 clock = pygame.time.Clock()
 
 while sceneManager.activeScene != None:
-    gameWindow.display.fill((0,0,0))
     sceneManager.UpdateScene(clock)
     clock.tick(targetFPS)
-    pygame.display.flip()
