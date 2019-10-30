@@ -3,9 +3,6 @@ from pytmx.util_pygame import load_pygame
 
 tileDir = "TILESETS/"
 
-wall = pygame.image.load(tileDir + 'block.png')
-ground = pygame.image.load(tileDir + 'floor.png')
-
 class Loader():
     def __init__(self, _filename, groundGroup, wallGroup):
         filename = _filename
@@ -20,6 +17,9 @@ class Loader():
 
         self.layers = self.tilemapData.layers
 
+        self.wall = pygame.image.load(tileDir + 'block.png').convert_alpha()
+        self.ground = pygame.image.load(tileDir + 'floor.png').convert_alpha()
+
     def Generate(self, window, yOffset):
         self.window = window
         centered_x = self.window.get_rect().centerx
@@ -31,7 +31,7 @@ class Loader():
                     xPos = (x - y) * self.tileSize.x / 2
                     yPos = (y + x) * self.tileSize.y / 2
 
-                    Tile(self.groundGroup, ground.convert_alpha(), 0, (xPos + centered_x, yPos + 64))
+                    Tile(self.groundGroup, self.ground, (xPos + centered_x, yPos + 64))
         
         for x in range(0, int(self.mapSize.x)):
             for y in range(0, int(self.mapSize.y)):
@@ -40,11 +40,10 @@ class Loader():
                     xPos = (x - y) * self.tileSize.x / 2
                     yPos = (y + x) * self.tileSize.y / 2
 
-                    Tile(self.wallGroup, wall.convert_alpha(), 1, (xPos + centered_x, yPos + 64))
+                    Tile(self.wallGroup, self.wall, pygame.Vector2(xPos + centered_x, yPos + 64))
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, group, image, layer, pos):
+    def __init__(self, group, image, pos):
         self.image = image
         self.rect = self.image.get_rect(center=pos)
-        self._layer = layer
         pygame.sprite.Sprite.__init__(self, group)
