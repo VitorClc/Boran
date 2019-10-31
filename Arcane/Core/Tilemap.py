@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 from pytmx.util_pygame import load_pygame
 
 tileDir = "TILESETS/"
@@ -20,8 +20,10 @@ class Loader():
         self.wall = pygame.image.load(tileDir + 'block.png').convert_alpha()
         self.ground = pygame.image.load(tileDir + 'floor.png').convert_alpha()
 
-    def Generate(self, window, yOffset):
+    def Generate(self, window, zeroPoint):
         self.window = window
+        self.zeroPoint = zeroPoint
+
         centered_x = self.window.get_rect().centerx
        
         for x in range(0, int(self.mapSize.x)):
@@ -41,6 +43,11 @@ class Loader():
                     yPos = (y + x) * self.tileSize.y / 2
 
                     Tile(self.wallGroup, self.wall, pygame.Vector2(xPos + centered_x, yPos + 64))
+
+    def cartesianToIsometric(self, cartesian, camera):
+        isometricX= math.floor((cartesian.y / self.tileSize.y) + (cartesian.x / self.tileSize.x))
+        isometricY=math.floor((-cartesian.x / self.tileSize.x) + (cartesian.y / self.tileSize.y))
+        return pygame.math.Vector2(isometricX + self.zeroPoint.x, (isometricY * -1) + (self.zeroPoint.y))
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, group, image, pos):
