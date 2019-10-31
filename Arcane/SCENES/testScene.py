@@ -52,7 +52,7 @@ class testScene(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, idle.convert_alpha(), pygame.Vector2(800,400))
+        self.player = Player(self.wall, idle.convert_alpha(), self.tilemap.isometricToCartesian(pygame.Vector2(-6,5)))
         self.camera = PlayerFollow(self.player.position)
 
         self.mousePosIsoText = Text("Mouse ISO", 25, pygame.Vector2(0, 0), self.window.display, (255,0,0))
