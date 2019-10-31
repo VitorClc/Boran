@@ -4,15 +4,10 @@ from Core.Scenes import SceneModel
 from Core.Tilemap import Loader
 from Core.Text import Text
 
+from OBJECTS.Player import Player
+
 spritesDir = "SPRITES/Human/"
 idle = pygame.image.load(spritesDir + 'Human_0_Idle0.png')
-
-class Player(pygame.sprite.Sprite):
-    def __init__(self, group, image, pos):
-        self.position = pos
-        self.image = image
-        self.rect = self.image.get_rect(center=pos)
-        pygame.sprite.Sprite.__init__(self, group)
 
 class PlayerFollow(object):
     def __init__(self, startPosition):
@@ -52,17 +47,17 @@ class testScene(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, idle.convert_alpha(), self.tilemap.isometricToCartesian(pygame.Vector2(-6,5)))
+        self.player = Player(self.wall, idle.convert_alpha(), self.tilemap.isometricToCartesian(pygame.Vector2(-6,7)), self.tilemap)
         self.camera = PlayerFollow(self.player.position)
 
         self.mousePosIsoText = Text("Mouse ISO", 25, pygame.Vector2(0, 0), self.window.display, (255,0,0))
         
     def ProcessInput(self, event, pressed_keys):
-        self.isoPos = self.tilemap.cartesianToIsometric(pygame.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] + 64), self.camera)
+        self.isoPos = self.tilemap.cartesianToIsometric(pygame.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] + 64))
         self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.isoPos))
 
     def Update(self):
-        self.surface.fill((0,0,100))
+        self.surface.fill((0,0,0))
 
         self.camera.getPlayerPosition(pygame.Vector2(self.player.rect.centerx, self.player.rect.centery))
 

@@ -44,7 +44,7 @@ class Loader():
 
                     Tile(self.wallGroup, self.wall, pygame.Vector2(xPos + centered_x, yPos + 64))
 
-    def cartesianToIsometric(self, cartesian, camera):
+    def cartesianToIsometric(self, cartesian):
         isometricX= math.floor((cartesian.y / self.tileSize.y) + (cartesian.x / self.tileSize.x))
         isometricY=math.floor((-cartesian.x / self.tileSize.x) + (cartesian.y / self.tileSize.y))
         return pygame.math.Vector2(isometricX + self.zeroPoint.x, (isometricY * -1) + (self.zeroPoint.y))
@@ -52,7 +52,7 @@ class Loader():
     def isometricToCartesian(self, isometric):
         cartesianX=(2*isometric.y+isometric.x)/2 * 128
         cartesianY=(2*isometric.y-isometric.x)/2 * 64
-        return pygame.math.Vector2(cartesianX, cartesianY)
+        return pygame.math.Vector2(cartesianX - 112, cartesianY )
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, group, image, pos):

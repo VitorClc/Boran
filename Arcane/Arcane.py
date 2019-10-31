@@ -17,6 +17,6 @@ sceneManager = SceneManager(scenes, 1, gameWindow)
 clock = pygame.time.Clock()
 
 while sceneManager.activeScene != None:
-    gameWindow.display.fill((0,0,100))
+    gameWindow.display.fill((0,0,0))
     sceneManager.UpdateScene(clock)
     clock.tick(targetFPS)
