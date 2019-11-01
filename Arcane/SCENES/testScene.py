@@ -1,13 +1,10 @@
-import pygame, math
+import pygame, math, time
 
 from Core.Scenes import SceneModel
 from Core.Tilemap import Loader
 from Core.Text import Text
 
 from OBJECTS.Player import Player
-
-spritesDir = "SPRITES/Human/"
-idle = pygame.image.load(spritesDir + 'Human_0_Idle0.png')
 
 class PlayerFollow(object):
     def __init__(self, startPosition):
@@ -34,7 +31,7 @@ class YAwareGroup(pygame.sprite.Group):
 class testScene(SceneModel):
     def Start(self, _gameWindow, sceneManager):
         self.window = _gameWindow
-
+        self.i = 0
         self.sceneManager = sceneManager
 
         self.ground = pygame.sprite.LayeredUpdates()
@@ -48,7 +45,7 @@ class testScene(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, idle.convert_alpha(), self.tilemap.isometricToCartesian(pygame.Vector2(-6,5)), self.tilemap)
+        self.player = Player(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap)
         self.camera = PlayerFollow(self.player.cartesianPos)
 
         self.mousePosIsoText = Text("Mouse ISO", 25, pygame.Vector2(0, 0), self.window.display, (255,0,0))
@@ -58,12 +55,14 @@ class testScene(SceneModel):
         self.player.ProcessInputs(self.isoPos)
 
     def Update(self):
+        self.i += 1
         self.surface.fill((0,0,0))
 
         self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.isoPos))
-        self.camera.getPlayerPosition(pygame.Vector2(self.player.rect.centerx, self.player.rect.centery))
+        self.camera.getPlayerPosition(self.player.isoMov)
 
-        self.player.Update(self.camera)
+        self.player.Update(self.camera, self.surface)
+
         self.ground.draw(self.surface)
         self.wall.draw(self.surface)
 
