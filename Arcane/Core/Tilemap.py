@@ -10,7 +10,7 @@ class Loader():
         self.groundGroup = groundGroup
         self.wallGroup = wallGroup
         
-        self.tilemapData = load_pygame(filename, pixelalpha=True)
+        self.tilemapData = load_pygame(filename)
 
         self.tileSize = pygame.Vector2(self.tilemapData.tilewidth, self.tilemapData.tileheight)
         self.mapSize = pygame.Vector2(self.tilemapData.width, self.tilemapData.height)
@@ -19,6 +19,15 @@ class Loader():
 
         self.wall = pygame.image.load(tileDir + 'block.png').convert_alpha()
         self.ground = pygame.image.load(tileDir + 'floor.png').convert_alpha()
+
+        groundMap = self.tilemapData.layers[0].data
+        ### INVERT MAP MATRIX
+        self.map = [[0 for x in range(len(groundMap))] for y in range(len(groundMap[0]))] 
+
+        for w in range(0, len(groundMap)):
+            for h in range(0, len(groundMap[w])):
+                self.map[w][h] = groundMap[w][h]
+            
 
     def Generate(self, window, zeroPoint):
         self.window = window

@@ -23,15 +23,14 @@ stopSprites = ["Human_0_Idle0.png", "Human_4_Idle0.png", "Human_6_Idle0.png", "H
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, group, image, startPosition, tilemap):
-        self.position = startPosition
-        self.image = image
-        self.rect = self.image.get_rect(center=startPosition)
-        pygame.sprite.Sprite.__init__(self, group)
+        self.sprite = "Human_0_Idle0.png"
+        self.image = pygame.image.load(baseDir + self.sprite)
+        self.rect = self.image.get_rect(center=-startPosition)
 
         self.cartesianPos = pygame.math.Vector2(startPosition.x, startPosition.y)
-        self.isoMov = pygame.math.Vector2(startPosition.x, startPosition.y)
-        self.isoReal = pygame.math.Vector2(startPosition.x, startPosition.y)
-        self.destination = pygame.math.Vector2(startPosition.x, startPosition.y)
+        self.isoMov = pygame.math.Vector2(-startPosition.x, -startPosition.y)
+        self.isoReal = pygame.math.Vector2(-startPosition.x, -startPosition.y)
+        self.destination = pygame.math.Vector2(-startPosition.x, -startPosition.y)
 
         self.mapData = tilemap.map
         self.grid = Grid(matrix=tilemap.map)
@@ -44,18 +43,19 @@ class Player(pygame.sprite.Sprite):
         self.dX = 0
         self.dY = 0
 
-        self.actualSprite = "Human_0_Idle0.png"
-        self.sprite = pygame.image.load(baseDir + self.actualSprite)
+        ## ANIMATION
         self.lastDir = 0
         self.walkCount = 0 
         self.animationSpeed = 40
         self.lastUpdate = 0
 
         self.tilemap = tilemap
+        
+        pygame.sprite.Sprite.__init__(self, group)
 
     def cartesianToIsometric(self, cartesian):
         self.isoMov = pygame.math.Vector2((cartesian.x - cartesian.y), (cartesian.x + cartesian.y) / 2)
-        self.isoReal = pygame.math.Vector2(cartesian.x / 128, -cartesian.y / 128)
+        self.isoReal = pygame.math.Vector2(cartesian.x / 256, -cartesian.y / 512)
 
     def getAnimation(self):
         ## UP
@@ -198,18 +198,16 @@ class Player(pygame.sprite.Sprite):
             self.actualPath = 0
 
     def ProcessInputs(self, isoClickPos):
-        pygame.event.get()
         mouseClick = pygame.mouse.get_pressed()         
         if mouseClick[0] == 1:
-            if(int(isoClickPos.x) >= 0 and int(isoClickPos.x) < self.tilemap.mapSize.x and int(isoClickPos.y) >= 0 and int(isoClickPos.y) <self.tilemap.mapSize.y):
-                start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
-                end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
-                self.path = self.finder.find_path(start, end, self.grid)[0]
-                #print(self.player.grid.grid_str(path=self.player.path, start=start, end=end))
-                self.goToPosition()
-                self.grid.cleanup()
+            start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
+            end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
+            self.path = self.finder.find_path(start, end, self.grid)[0]
+            print(self.grid.grid_str(path=self.path, start=start, end=end))
+            self.goToPosition()
+            self.grid.cleanup()
 
-    def Render(self, camera):
+    def Update(self, camera):
         self.checkPosition()
 
         self.cartesianPos.x += self.dX * 4
@@ -218,4 +216,4 @@ class Player(pygame.sprite.Sprite):
         self.cartesianToIsometric(self.cartesianPos) 
 
         self.getAnimation()
-        self.playerSprite = self.gameWindow.blit(self.sprite, (self.isoMov.x + camera.x, self.isoMov.y + camera.y))
+        self.rect.center = pygame.Vector2(self.cartesianPos.x, self.cartesianPos.y)

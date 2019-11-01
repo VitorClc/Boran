@@ -28,6 +28,7 @@ class YAwareGroup(pygame.sprite.Group):
         surface_blit = surface.blit
         for spr in sorted(sprites, key=self.by_y):
             self.spritedict[spr] = surface_blit(spr.image, spr.rect)
+
         self.lostsprites = []
 
 class testScene(SceneModel):
@@ -47,25 +48,28 @@ class testScene(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, idle.convert_alpha(), self.tilemap.isometricToCartesian(pygame.Vector2(-6,7)), self.tilemap)
-        self.camera = PlayerFollow(self.player.position)
+        self.player = Player(self.wall, idle.convert_alpha(), self.tilemap.isometricToCartesian(pygame.Vector2(-6,5)), self.tilemap)
+        self.camera = PlayerFollow(self.player.cartesianPos)
 
         self.mousePosIsoText = Text("Mouse ISO", 25, pygame.Vector2(0, 0), self.window.display, (255,0,0))
         
     def ProcessInput(self, event, pressed_keys):
         self.isoPos = self.tilemap.cartesianToIsometric(pygame.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] + 64))
-        self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.isoPos))
+        self.player.ProcessInputs(self.isoPos)
 
     def Update(self):
         self.surface.fill((0,0,0))
 
+        self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.isoPos))
         self.camera.getPlayerPosition(pygame.Vector2(self.player.rect.centerx, self.player.rect.centery))
 
+        self.player.Update(self.camera)
         self.ground.draw(self.surface)
         self.wall.draw(self.surface)
 
     def Render(self):
         self.window.display.blit(self.surface,(self.camera.x, self.camera.y))
+        
         self.mousePosIsoText.drawText()
         pygame.display.update(self.mousePosIsoText.textSprite)
 
