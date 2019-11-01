@@ -4,10 +4,9 @@ from pytmx.util_pygame import load_pygame
 tileDir = "TILESETS/"
 
 class Loader():
-    def __init__(self, _filename, groundGroup, wallGroup):
+    def __init__(self, _filename, wallGroup):
         filename = _filename
         
-        self.groundGroup = groundGroup
         self.wallGroup = wallGroup
         
         self.tilemapData = load_pygame(filename, smart_convert=True, pixelalpha=True)
@@ -16,6 +15,9 @@ class Loader():
         self.mapSize = pygame.Vector2(self.tilemapData.width, self.tilemapData.height)
 
         self.layers = self.tilemapData.layers
+
+        self.groundSurface = pygame.Surface(((self.mapSize.x * self.tileSize.x) + 32, self.mapSize.y * self.tileSize.y + (self.tileSize.y * 2)))
+        self.groundRect = self.groundSurface.get_rect()
 
         groundMap = self.tilemapData.layers[0].data
         ### INVERT MAP MATRIX
@@ -26,6 +28,9 @@ class Loader():
                 self.map[w][h] = groundMap[w][h]
             
         self.map = self.map[::-1]
+
+    def DrawGround(self, display, camera):
+        self.groundSprite = display.blit(self.groundSurface, (0, 256))
 
     def Generate(self, window, zeroPoint):
         self.window = window
@@ -40,8 +45,9 @@ class Loader():
                     xPos = (x - y) * self.tileSize.x / 2
                     yPos = (y + x) * self.tileSize.y / 2
 
-                    Tile(self.groundGroup, tile, (xPos + centered_x, yPos + 64))
-        
+                    #Tile(self.groundGroup, tile, (xPos + centered_x, yPos + 64))
+                    self.groundSurface.blit(tile, (xPos + self.groundRect.centerx - self.tileSize.x / 2, yPos - self.groundRect.centery + self.tileSize.y / 2  + self.tileSize.y))
+
         for x in range(0, int(self.mapSize.x)):
             for y in range(0, int(self.mapSize.y)):
                 tile = self.tilemapData.get_tile_image(x,y,1)

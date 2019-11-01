@@ -34,10 +34,9 @@ class testScene(SceneModel):
         self.i = 0
         self.sceneManager = sceneManager
 
-        self.ground = pygame.sprite.LayeredUpdates()
         self.wall = YAwareGroup()
 
-        self.tilemap = Loader("MAPS/testScene.tmx", self.ground, self.wall)
+        self.tilemap = Loader("MAPS/testScene.tmx", self.wall)
         
         self.surface = pygame.Surface(((self.tilemap.mapSize.x * self.tilemap.tileSize.x) + 32, self.tilemap.mapSize.y * self.tilemap.tileSize.y + (self.tilemap.tileSize.y * 2)))
         self.surface.get_rect().centerx = (self.tilemap.tileSize.x * self.tilemap.mapSize.x) / 2
@@ -58,17 +57,18 @@ class testScene(SceneModel):
         self.i += 1
         self.surface.fill((0,0,0))
 
+        self.tilemap.DrawGround(self.surface, self.camera)
+        pygame.display.update(self.tilemap.groundSprite)
+
         self.mousePosIsoText.setText("Mouse ISOMETRIC: " + str(self.isoPos))
         self.camera.getPlayerPosition(self.player.isoMov)
 
         self.player.Update(self.camera, self.surface)
-
-        self.ground.draw(self.surface)
         self.wall.draw(self.surface)
 
     def Render(self):
         self.window.display.blit(self.surface,(self.camera.x, self.camera.y))
-        
+
         self.mousePosIsoText.drawText()
         pygame.display.update(self.mousePosIsoText.textSprite)
 
