@@ -16,7 +16,7 @@ class Loader():
 
         self.layers = self.tilemapData.layers
 
-        self.groundSurface = pygame.Surface(((self.mapSize.x * self.tileSize.x) + 32, self.mapSize.y * self.tileSize.y + (self.tileSize.y * 2)))
+        self.groundSurface = pygame.Surface(((self.mapSize.x * self.tileSize.x) + 32, (self.mapSize.y * self.tileSize.y) + 40))
         self.groundRect = self.groundSurface.get_rect()
 
         groundMap = self.tilemapData.layers[0].data
@@ -37,7 +37,7 @@ class Loader():
         self.zeroPoint = zeroPoint
 
         centered_x = self.window.get_rect().centerx
-       
+
         for x in range(0, int(self.mapSize.x)):
             for y in range(0, int(self.mapSize.y)):
                 tile = self.tilemapData.get_tile_image(x,y,0)
@@ -46,7 +46,7 @@ class Loader():
                     yPos = (y + x) * self.tileSize.y / 2
 
                     #Tile(self.groundGroup, tile, (xPos + centered_x, yPos + 64))
-                    self.groundSurface.blit(tile, (xPos + self.groundRect.centerx - self.tileSize.x / 2, yPos - self.groundRect.centery + self.tileSize.y / 2  + self.tileSize.y))
+                    self.groundSurface.blit(tile.convert_alpha(), (xPos + self.groundRect.centerx - self.tileSize.x / 2, yPos - self.groundRect.centery + self.tileSize.y + 16))
 
         for x in range(0, int(self.mapSize.x)):
             for y in range(0, int(self.mapSize.y)):
@@ -61,7 +61,7 @@ class Loader():
                     isoPos.y = y - self.mapSize.y + 1
                     isoPos.y *= -1
 
-                    Tile(self.wallGroup, tile.convert(), pygame.Vector2(xPos + centered_x, yPos + 64), isoPos)
+                    Tile(self.wallGroup, tile.convert_alpha(), pygame.Vector2(xPos + centered_x, yPos + 124), isoPos)
 
     def cartesianToIsometric(self, cartesian):
         isometricX= math.floor((cartesian.y / self.tileSize.y) + (cartesian.x / self.tileSize.x))
@@ -80,10 +80,10 @@ class Tile(pygame.sprite.Sprite):
         
         self.isoPos = isoPos
         
-        pygame.font.init() 
-        myfont = pygame.font.SysFont('Comic Sans MS', 30)
-        textsurface = myfont.render(str(isoPos), False, (255, 0, 0))
-        self.image.blit(textsurface, (64,256))
+        #pygame.font.init() 
+        #myfont = pygame.font.SysFont('Comic Sans MS', 30)
+        #textsurface = myfont.render(str(isoPos), False, (255, 0, 0))
+        #self.image.blit(textsurface, (64,256))
 
         self.rect = self.image.get_rect(center=pos)
         pygame.sprite.Sprite.__init__(self, group)

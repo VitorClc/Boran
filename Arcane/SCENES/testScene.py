@@ -47,7 +47,7 @@ class testScene(SceneModel):
 
         self.tilemap = Loader("MAPS/test2.tmx", self.wall)
         
-        self.surface = pygame.Surface(((self.tilemap.mapSize.x * self.tilemap.tileSize.x) + 32, self.tilemap.mapSize.y * self.tilemap.tileSize.y + (self.tilemap.tileSize.y * 2)))
+        self.surface = pygame.Surface(((self.tilemap.mapSize.x * self.tilemap.tileSize.x) + 32, self.tilemap.mapSize.y * self.tilemap.tileSize.y + (self.tilemap.tileSize.y * 2)), pygame.HWSURFACE)
         self.surface.get_rect().centerx = (self.tilemap.tileSize.x * self.tilemap.mapSize.x) / 2
         self.surface.get_rect().centery = (self.tilemap.tileSize.y * self.tilemap.mapSize.y) / 2
 
@@ -57,7 +57,7 @@ class testScene(SceneModel):
         self.camera = PlayerFollow(self.player.cartesianPos)
 
     def ProcessInput(self, event, pressed_keys):
-        self.isoPos = self.tilemap.cartesianToIsometric(pygame.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] + 64))
+        self.isoPos = self.tilemap.cartesianToIsometric(pygame.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1]))
         self.player.ProcessInputs(self.isoPos)
 
     def Update(self):
@@ -69,10 +69,10 @@ class testScene(SceneModel):
         self.player.Update(self.camera, self.surface)
         self.wall.draw(self.surface, self.player)
         
-        if(self.player.isoReal.x == 3 and self.player.isoReal.y == 7):
-            self.SwitchToScene(self.sceneManager.scenesArray[2])
-            self.Destroy()
-            pygame.display.flip()         
+        #if(self.player.isoReal.x == 3 and self.player.isoReal.y == 7):
+        #    self.SwitchToScene(self.sceneManager.scenesArray[2])
+        #    self.Destroy()
+        #    pygame.display.flip()         
 
     def Render(self):
         self.window.display.blit(self.surface,(self.camera.x, self.camera.y))
