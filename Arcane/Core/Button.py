@@ -51,4 +51,7 @@ class Button():
 
     def onExit(self):
         self.color = self.normalColor
+
+    def destroy(self):
+        self.color = (0,0,0,0)
         

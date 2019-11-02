@@ -13,6 +13,8 @@ class startMenu(SceneModel):
         
         def startGame():
             self.SwitchToScene(self.sceneManager.scenesArray[1])
+            self.startButton.destroy()
+            pygame.display.flip()
 
         self.startButton = Button(self.window, (255,0,0), (0,0,255), Vector2(self.screenCenter.x, self.screenCenter.y - 100), Vector2(300,80), "Iniciar Jogo", startGame)
 

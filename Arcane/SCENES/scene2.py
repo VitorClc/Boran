@@ -29,14 +29,14 @@ class YAwareGroup(pygame.sprite.Group):
 
         self.lostsprites = []
 
-class testScene(SceneModel):
+class scene2(SceneModel):
     def Start(self, _gameWindow, sceneManager):
         self.window = _gameWindow
         self.sceneManager = sceneManager
 
         self.wall = YAwareGroup()
 
-        self.tilemap = Loader("MAPS/testScene.tmx", self.wall)
+        self.tilemap = Loader("MAPS/test2.tmx", self.wall)
         
         self.surface = pygame.Surface(((self.tilemap.mapSize.x * self.tilemap.tileSize.x) + 32, self.tilemap.mapSize.y * self.tilemap.tileSize.y + (self.tilemap.tileSize.y * 2)))
         self.surface.get_rect().centerx = (self.tilemap.tileSize.x * self.tilemap.mapSize.x) / 2
@@ -44,7 +44,7 @@ class testScene(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap)
+        self.player = Player(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(0,1)), self.tilemap)
         self.camera = PlayerFollow(self.player.cartesianPos)
 
     def ProcessInput(self, event, pressed_keys):
@@ -59,16 +59,12 @@ class testScene(SceneModel):
 
         self.player.Update(self.camera, self.surface)
         self.wall.draw(self.surface)
-        
-        if(self.player.isoReal.x == 3 and self.player.isoReal.y == 7):
-            self.SwitchToScene(self.sceneManager.scenesArray[2])
-            self.Destroy()
-            pygame.display.flip()         
 
+        if(self.player.isoReal.x == 0 and self.player.isoReal.y == 1):
+            self.SwitchToScene(self.sceneManager.scenesArray[2])
+            pygame.display.flip()     
+            
     def Render(self):
         self.window.display.blit(self.surface,(self.camera.x, self.camera.y))
 
         pygame.display.update(self.window.display.get_rect())
-    
-    def Destroy(self):
-        self.surface.fill((0,0,0,0))
