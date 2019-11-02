@@ -25,7 +25,9 @@ class YAwareGroup(pygame.sprite.Group):
         for spr in sorted(sprites, key=self.by_y):
             if(hasattr(spr, "sprite") == False):
                 if(spr.isoPos.y < player.isoReal.y and spr.isoPos.y == player.isoReal.y - 1):
-                    if(spr.isoPos.x > player.isoReal.x - 2):
+                    if(spr.isoPos.x - player.isoReal.x < 2 and spr.isoPos.x - player.isoReal.x >= 0):
+                        spr.image.set_alpha(70)
+                    elif(spr.isoPos.x - player.isoReal.x > -2 and spr.isoPos.x - player.isoReal.x <= 0):
                         spr.image.set_alpha(70)
                     else:
                         spr.image.set_alpha(255)
@@ -43,7 +45,7 @@ class testScene(SceneModel):
 
         self.wall = YAwareGroup()
 
-        self.tilemap = Loader("MAPS/testScene.tmx", self.wall)
+        self.tilemap = Loader("MAPS/test2.tmx", self.wall)
         
         self.surface = pygame.Surface(((self.tilemap.mapSize.x * self.tilemap.tileSize.x) + 32, self.tilemap.mapSize.y * self.tilemap.tileSize.y + (self.tilemap.tileSize.y * 2)))
         self.surface.get_rect().centerx = (self.tilemap.tileSize.x * self.tilemap.mapSize.x) / 2
