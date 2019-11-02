@@ -19,12 +19,19 @@ class YAwareGroup(pygame.sprite.Group):
     def by_y(self, spr):
         return spr.rect.centery
 
-    def draw(self, surface):
+    def draw(self, surface, player):
         sprites = self.sprites()
         surface_blit = surface.blit
         for spr in sorted(sprites, key=self.by_y):
-            #if(hasattr(spr, 'sprite')):
-            #    print("a")
+            if(hasattr(spr, "sprite") == False):
+                if(spr.isoPos.y < player.isoReal.y and spr.isoPos.y == player.isoReal.y - 1):
+                    if(spr.isoPos.x > player.isoReal.x - 2):
+                        spr.image.set_alpha(70)
+                    else:
+                        spr.image.set_alpha(255)
+                else:
+                    spr.image.set_alpha(255)
+
             self.spritedict[spr] = surface_blit(spr.image, spr.rect)
 
         self.lostsprites = []
@@ -58,7 +65,7 @@ class testScene(SceneModel):
         self.camera.getPlayerPosition(self.player.isoMov)
 
         self.player.Update(self.camera, self.surface)
-        self.wall.draw(self.surface)
+        self.wall.draw(self.surface, self.player)
         
         if(self.player.isoReal.x == 3 and self.player.isoReal.y == 7):
             self.SwitchToScene(self.sceneManager.scenesArray[2])

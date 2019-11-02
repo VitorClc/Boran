@@ -9,7 +9,7 @@ class Loader():
         
         self.wallGroup = wallGroup
         
-        self.tilemapData = load_pygame(filename, smart_convert=True, pixelalpha=True)
+        self.tilemapData = load_pygame(filename)
 
         self.tileSize = pygame.Vector2(self.tilemapData.tilewidth, self.tilemapData.tileheight)
         self.mapSize = pygame.Vector2(self.tilemapData.width, self.tilemapData.height)
@@ -55,7 +55,13 @@ class Loader():
                     xPos = (x - y) * self.tileSize.x / 2
                     yPos = (y + x) * self.tileSize.y / 2
 
-                    Tile(self.wallGroup, tile, pygame.Vector2(xPos + centered_x, yPos + 64))
+                    isoPos = self.cartesianToIsometric(pygame.Vector2(xPos, yPos))
+                    isoPos.x -= zeroPoint.x
+
+                    isoPos.y = y - self.mapSize.y + 1
+                    isoPos.y *= -1
+
+                    Tile(self.wallGroup, tile.convert(), pygame.Vector2(xPos + centered_x, yPos + 64), isoPos)
 
     def cartesianToIsometric(self, cartesian):
         isometricX= math.floor((cartesian.y / self.tileSize.y) + (cartesian.x / self.tileSize.x))
@@ -68,7 +74,16 @@ class Loader():
         return pygame.math.Vector2(cartesianX, cartesianY)
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, group, image, pos):
+    def __init__(self, group, image, pos, isoPos):
         self.image = image
+        self.image.set_colorkey((0,0,0))
+        
+        self.isoPos = isoPos
+        
+        pygame.font.init() 
+        myfont = pygame.font.SysFont('Comic Sans MS', 30)
+        textsurface = myfont.render(str(isoPos), False, (255, 0, 0))
+        self.image.blit(textsurface, (64,256))
+
         self.rect = self.image.get_rect(center=pos)
         pygame.sprite.Sprite.__init__(self, group)
