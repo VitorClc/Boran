@@ -46,7 +46,7 @@ class testScene(SceneModel):
 
         self.wall = YAwareGroup()
 
-        self.tilemap = Loader("MAPS/test2.tmx", self.wall)
+        self.tilemap = Loader("MAPS/casa_floresta2.tmx", self.wall)
         
         self.surface = pygame.Surface(((self.tilemap.mapSize.x * self.tilemap.tileSize.x) + 32, self.tilemap.mapSize.y * self.tilemap.tileSize.y + (self.tilemap.tileSize.y * 2)), pygame.HWSURFACE)
         self.surface.get_rect().centerx = (self.tilemap.tileSize.x * self.tilemap.mapSize.x) / 2
@@ -68,7 +68,7 @@ class testScene(SceneModel):
         pygame.display.update(self.tilemap.groundSprite)
 
         self.camera.getPlayerPosition(self.player.isoMov)
-        self.enemy1.Movement(pygame.Vector2(2,0), pygame.Vector2(2,2))
+        self.enemy1.Movement(pygame.Vector2(1,0), pygame.Vector2(3,2))
 
         self.player.Update(self.camera, self.surface)
         self.enemy1.Update(self.surface)
