@@ -4,6 +4,7 @@ from Core.Scenes import SceneModel
 from Core.Tilemap import Loader
 
 from OBJECTS.Player import Player
+from OBJECTS.NPC import NPC
 
 class PlayerFollow(object):
     def __init__(self, startPosition):
@@ -54,6 +55,8 @@ class testScene(SceneModel):
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
         self.player = Player(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap)
+        self.enemy1 = NPC(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap)
+
         self.camera = PlayerFollow(self.player.cartesianPos)
 
     def ProcessInput(self, event, pressed_keys):
@@ -65,8 +68,11 @@ class testScene(SceneModel):
         pygame.display.update(self.tilemap.groundSprite)
 
         self.camera.getPlayerPosition(self.player.isoMov)
+        self.enemy1.Movement(pygame.Vector2(2,0), pygame.Vector2(2,2))
 
         self.player.Update(self.camera, self.surface)
+        self.enemy1.Update(self.surface)
+
         self.wall.draw(self.surface, self.player)
         
         #if(self.player.isoReal.x == 3 and self.player.isoReal.y == 7):
