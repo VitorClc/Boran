@@ -21,4 +21,4 @@ while sceneManager.activeScene != None:
     #gameWindow.display.fill((255,0,0))
     sceneManager.UpdateScene(clock)
     clock.tick(targetFPS)
-    #pygame.display.flip()
+    pygame.display.flip()

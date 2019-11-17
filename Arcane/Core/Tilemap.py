@@ -19,14 +19,16 @@ class Loader():
         self.groundSurface = pygame.Surface(((self.mapSize.x * self.tileSize.x) + 32, (self.mapSize.y * self.tileSize.y) + 40))
         self.groundRect = self.groundSurface.get_rect()
 
-        groundMap = self.tilemapData.layers[0].data
+        groundMap = self.tilemapData.layers[1].data
         ### INVERT MAP MATRIX
         self.map = [[0 for x in range(len(groundMap))] for y in range(len(groundMap[0]))] 
 
         for w in range(0, len(groundMap)):
             for h in range(0, len(groundMap[w])):
-                self.map[w][h] = groundMap[w][h]
-            
+                if(groundMap[w][h] != 0):
+                    self.map[w][h] = 0
+                else:
+                    self.map[w][h] = 1
         self.map = self.map[::-1]
 
     def DrawGround(self, display, camera):
@@ -46,7 +48,7 @@ class Loader():
                     yPos = (y + x) * self.tileSize.y / 2
 
                     #Tile(self.groundGroup, tile, (xPos + centered_x, yPos + 64))
-                    self.groundSurface.blit(tile.convert_alpha(), (xPos + self.groundRect.centerx - self.tileSize.x / 2, yPos - self.groundRect.centery + self.tileSize.y + 16))
+                    self.groundSurface.blit(tile.convert_alpha(), (xPos + self.groundRect.centerx - self.tileSize.x / 2, yPos - self.groundRect.centery + self.tileSize.y + 16 + 130))
 
         for x in range(0, int(self.mapSize.x)):
             for y in range(0, int(self.mapSize.y)):
@@ -61,7 +63,7 @@ class Loader():
                     isoPos.y = y - self.mapSize.y + 1
                     isoPos.y *= -1
 
-                    Tile(self.wallGroup, tile.convert_alpha(), pygame.Vector2(xPos + centered_x, yPos + 124), isoPos)
+                    Tile(self.wallGroup, tile.convert_alpha(), pygame.Vector2(xPos + centered_x, yPos + 130), isoPos)
 
     def cartesianToIsometric(self, cartesian):
         isometricX= math.floor((cartesian.y / self.tileSize.y) + (cartesian.x / self.tileSize.x))

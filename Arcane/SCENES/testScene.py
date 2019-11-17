@@ -60,10 +60,11 @@ class testScene(SceneModel):
         self.camera = PlayerFollow(self.player.cartesianPos)
 
     def ProcessInput(self, event, pressed_keys):
-        self.isoPos = self.tilemap.cartesianToIsometric(pygame.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1]))
+        self.isoPos = self.tilemap.cartesianToIsometric(pygame.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - 128))
         self.player.ProcessInputs(self.isoPos)
 
     def Update(self):
+        self.surface.fill((0,0,0))
         self.tilemap.DrawGround(self.surface, self.camera)
         pygame.display.update(self.tilemap.groundSprite)
 
