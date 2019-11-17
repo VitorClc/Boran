@@ -63,7 +63,7 @@ class Loader():
                     isoPos.y = y - self.mapSize.y + 1
                     isoPos.y *= -1
 
-                    Tile(self.wallGroup, tile.convert_alpha(), pygame.Vector2(xPos + centered_x, yPos + 130), isoPos)
+                    Tile(self.wallGroup, tile.convert(), pygame.Vector2(xPos + centered_x, yPos + 130), isoPos)
 
     def cartesianToIsometric(self, cartesian):
         isometricX= math.floor((cartesian.y / self.tileSize.y) + (cartesian.x / self.tileSize.x))
@@ -78,8 +78,8 @@ class Loader():
 class Tile(pygame.sprite.Sprite):
     def __init__(self, group, image, pos, isoPos):
         self.image = image
-        self.image.set_colorkey((0,0,0))
-        
+        self.image.set_colorkey((255,0,255))
+
         self.isoPos = isoPos
         
         #pygame.font.init() 

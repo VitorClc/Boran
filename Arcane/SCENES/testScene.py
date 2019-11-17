@@ -54,7 +54,7 @@ class testScene(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap)
+        self.player = Player(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(4,0)), self.tilemap)
         self.enemy1 = NPC(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
