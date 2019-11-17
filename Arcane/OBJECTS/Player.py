@@ -32,6 +32,8 @@ class Player(pygame.sprite.Sprite):
         self.isoReal = pygame.math.Vector2(startPosition.x, startPosition.y)
         self.destination = pygame.math.Vector2(startPosition.x, startPosition.y)
 
+        self.canInteract = True
+
         self.mapData = tilemap.map
         self.grid = Grid(matrix=tilemap.map)
 
@@ -198,14 +200,15 @@ class Player(pygame.sprite.Sprite):
             self.actualPath = 0
 
     def ProcessInputs(self, isoClickPos):
-        mouseClick = pygame.mouse.get_pressed()         
-        if mouseClick[0] == 1:
-            start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
-            end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
-            self.path = self.finder.find_path(start, end, self.grid)[0]
-            print(self.grid.grid_str(path=self.path, start=start, end=end))
-            self.goToPosition()
-            self.grid.cleanup()
+        if(self.canInteract == True):
+            mouseClick = pygame.mouse.get_pressed()         
+            if mouseClick[0] == 1:
+                start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
+                end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
+                self.path = self.finder.find_path(start, end, self.grid)[0]
+                print(self.grid.grid_str(path=self.path, start=start, end=end))
+                self.goToPosition()
+                self.grid.cleanup()
 
     def Update(self, camera, surface):
         self.checkPosition()

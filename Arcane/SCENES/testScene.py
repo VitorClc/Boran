@@ -55,6 +55,7 @@ class testScene(SceneModel):
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
         self.player = Player(self.wall, pygame.Vector2(640,-512), self.tilemap)
+        self.player.canInteract = True
         #self.enemy1 = NPC(self.wall, pygame.Vector2(0,0), self.tilemap)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
