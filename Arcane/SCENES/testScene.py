@@ -54,8 +54,8 @@ class testScene(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(4,0)), self.tilemap)
-        self.enemy1 = NPC(self.wall, self.tilemap.isometricToCartesian(pygame.Vector2(0,0)), self.tilemap)
+        self.player = Player(self.wall, pygame.Vector2(640,-512), self.tilemap)
+        #self.enemy1 = NPC(self.wall, pygame.Vector2(0,0), self.tilemap)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
 
@@ -69,10 +69,10 @@ class testScene(SceneModel):
         pygame.display.update(self.tilemap.groundSprite)
 
         self.camera.getPlayerPosition(self.player.isoMov)
-        self.enemy1.Movement(pygame.Vector2(1,0), pygame.Vector2(3,2))
+        #self.enemy1.Movement(pygame.Vector2(1,0), pygame.Vector2(3,2))
 
         self.player.Update(self.camera, self.surface)
-        self.enemy1.Update(self.surface)
+        #self.enemy1.Update(self.surface)
 
         self.wall.draw(self.surface, self.player)
         
