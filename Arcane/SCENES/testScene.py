@@ -46,7 +46,7 @@ class testScene(SceneModel):
 
         self.wall = YAwareGroup()
 
-        self.tilemap = Loader("MAPS/casa_floresta2.tmx", self.wall)
+        self.tilemap = Loader("MAPS/academia_000.tmx", self.wall)
         
         self.surface = pygame.Surface(((self.tilemap.mapSize.x * self.tilemap.tileSize.x) + 32, self.tilemap.mapSize.y * self.tilemap.tileSize.y + (self.tilemap.tileSize.y * 2)), pygame.HWSURFACE)
         self.surface.get_rect().centerx = (self.tilemap.tileSize.x * self.tilemap.mapSize.x) / 2
