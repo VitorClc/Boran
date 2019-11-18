@@ -104,7 +104,10 @@ class testScene(SceneModel):
                 elif(self.seventhDialogue == False):
                     self.dialogue.setCharName("Kamon")
                     self.dialogue.setText("Meu jovem irmão, pelos boatos que ouvi, um dos maiores mestres \nde Muay Thai caiu diante de um jovem mago Apolda... Os nossos \nmelhores guerreiros são ineficazes sem o equilíbrio da natureza...")
-                    self.seventhDialogue = True                                    
+                    self.seventhDialogue = True  
+                else:
+                    self.dialogue.visible = False
+                    self.player.canInteract = True                                  
 
     def Update(self):
         self.surface.fill((0,0,0))

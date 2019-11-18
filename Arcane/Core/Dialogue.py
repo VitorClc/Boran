@@ -5,6 +5,7 @@ class Dialogue():
     def __init__(self):
         self.text = ""
         self.completeText = self.text
+        self.visible = True
 
     def setCharName(self, _charName):
         self.charName = _charName
@@ -22,16 +23,17 @@ class Dialogue():
             self.lastUpdate = pygame.time.get_ticks()
 
     def Draw(self, _gameWindow):
-        self.nameRect = pygame.draw.rect(_gameWindow,(26, 35, 126),(360,830,600,50))
-        self.dialogueRect = pygame.draw.rect(_gameWindow,(48, 63, 159),(360,880,1200,200))
-        
-        font = pygame.font.Font('freesansbold.ttf', 32) 
+        if self.visible == True:
+            self.nameRect = pygame.draw.rect(_gameWindow,(26, 35, 126),(360,830,600,50))
+            self.dialogueRect = pygame.draw.rect(_gameWindow,(48, 63, 159),(360,880,1200,200))
 
-        charRender = font.render(self.charName, True, (255,255,255)) 
+            font = pygame.font.Font('freesansbold.ttf', 32) 
 
-        charRect = charRender.get_rect()  
-        
-        charRect.bottomleft = (400, 874) 
+            charRender = font.render(self.charName, True, (255,255,255)) 
 
-        _gameWindow.blit(charRender, charRect) 
-        ptext.draw(self.text, topleft=(400, 930), fontsize=50) 
+            charRect = charRender.get_rect()  
+
+            charRect.bottomleft = (400, 874) 
+
+            _gameWindow.blit(charRender, charRect) 
+            ptext.draw(self.text, topleft=(400, 930), fontsize=50) 
