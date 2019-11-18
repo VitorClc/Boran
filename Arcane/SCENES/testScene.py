@@ -2,6 +2,7 @@ import pygame, math, time
 
 from Core.Scenes import SceneModel
 from Core.Tilemap import Loader
+from Core.Dialogue import Dialogue
 
 from OBJECTS.Player import Player
 from OBJECTS.NPC import NPC
@@ -14,7 +15,6 @@ class PlayerFollow(object):
     def getPlayerPosition(self, playerPos):
         self.x = -playerPos.x + 1000
         self.y = -playerPos.y + 400
-
 
 class YAwareGroup(pygame.sprite.Group):
     def by_y(self, spr):
@@ -56,6 +56,9 @@ class testScene(SceneModel):
 
         self.player = Player(self.wall, pygame.Vector2(640,-512), self.tilemap)
         self.player.canInteract = True
+        
+        self.dialogue = Dialogue()
+
         #self.enemy1 = NPC(self.wall, pygame.Vector2(0,0), self.tilemap)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
@@ -84,8 +87,9 @@ class testScene(SceneModel):
 
     def Render(self):
         self.window.display.blit(self.surface,(self.camera.x, self.camera.y))
-
+        self.dialogue.Draw(self.window.display)
         pygame.display.update(self.window.display.get_rect())
-    
+        
+
     def Destroy(self):
         self.surface.fill((0,0,0,0))
