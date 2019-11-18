@@ -55,9 +55,18 @@ class testScene(SceneModel):
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
         self.player = Player(self.wall, pygame.Vector2(640,-512), self.tilemap)
-        self.player.canInteract = True
+        self.player.canInteract = False
         
         self.dialogue = Dialogue()
+
+        ##CUTSCENES
+        self.firstDialogue = False
+        self.secondDialogue = False
+        self.thirdDialogue = False
+        self.fourthDialogue = False
+        self.fifthDialogue = False
+        self.sixthDialogue = False
+        self.seventhDialogue = False
 
         #self.enemy1 = NPC(self.wall, pygame.Vector2(0,0), self.tilemap)
 
@@ -66,6 +75,36 @@ class testScene(SceneModel):
     def ProcessInput(self, event, pressed_keys):
         self.isoPos = self.tilemap.cartesianToIsometric(pygame.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - 128))
         self.player.ProcessInputs(self.isoPos)
+
+        if(self.firstDialogue == True & (len(self.dialogue.text) < len(self.dialogue.completeText))):
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.dialogue.text = self.dialogue.completeText
+        elif(len(self.dialogue.text) == len(self.dialogue.completeText)):
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if(self.secondDialogue == False):
+                    self.dialogue.setCharName("Boran")
+                    self.dialogue.setText("Espero me tornar um grande guerreiro igual você! Quando os \nmonges te levarão para receber o treinamento para ser um mestre?")
+                    self.secondDialogue = True
+                elif(self.thirdDialogue == False):
+                    self.dialogue.setCharName("Kamon")
+                    self.dialogue.setText("Quando eu estiver preparado... Os monges estão se isolando na \nfloresta dos Ventos... Acredito que isso tem alguma ligação com as \nnotícias recentes...")
+                    self.thirdDialogue = True
+                elif(self.fourthDialogue == False):
+                    self.dialogue.setCharName("Boran")
+                    self.dialogue.setText("Notícias?")
+                    self.fourthDialogue = True
+                elif(self.fifthDialogue == False):
+                    self.dialogue.setCharName("Kamon")
+                    self.dialogue.setText("Sim, sobre o terrível Harrison \"The Hunter\" e seu império Apolda. \nDiversos povos já foram escravizados ou dizimados.")
+                    self.fifthDialogue = True
+                elif(self.sixthDialogue == False):
+                    self.dialogue.setCharName("Boran")
+                    self.dialogue.setText("Temos fortes guerreiros, todos nós somos muito bem treinados!")
+                    self.sixthDialogue = True
+                elif(self.seventhDialogue == False):
+                    self.dialogue.setCharName("Kamon")
+                    self.dialogue.setText("Meu jovem irmão, pelos boatos que ouvi, um dos maiores mestres \nde Muay Thai caiu diante de um jovem mago Apolda... Os nossos \nmelhores guerreiros são ineficazes sem o equilíbrio da natureza...")
+                    self.seventhDialogue = True                                    
 
     def Update(self):
         self.surface.fill((0,0,0))
@@ -80,6 +119,14 @@ class testScene(SceneModel):
 
         self.wall.draw(self.surface, self.player)
         
+        if(self.firstDialogue == False):
+            self.dialogue.setCharName("Kamon")
+            self.dialogue.setText("Fico muito feliz pelo seu aprendizado, meu irmão. Um dia você se \ntornará um grande homem!")
+            self.firstDialogue = True
+
+        if(len(self.dialogue.text) < len(self.dialogue.completeText)):
+            self.dialogue.updateText()
+
         #if(self.player.isoReal.x == 3 and self.player.isoReal.y == 7):
         #    self.SwitchToScene(self.sceneManager.scenesArray[2])
         #    self.Destroy()
@@ -90,6 +137,5 @@ class testScene(SceneModel):
         self.dialogue.Draw(self.window.display)
         pygame.display.update(self.window.display.get_rect())
         
-
     def Destroy(self):
         self.surface.fill((0,0,0,0))
