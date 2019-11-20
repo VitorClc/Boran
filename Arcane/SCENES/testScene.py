@@ -58,7 +58,7 @@ class testScene(SceneModel):
         self.player.canInteract = False
         
         self.dialogue = Dialogue()
-        self.fade(1920, 1080)
+        #self.fade(1920, 1080)
 
         ##CUTSCENES
         self.firstDialogue = False
