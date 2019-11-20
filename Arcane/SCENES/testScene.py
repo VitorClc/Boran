@@ -58,6 +58,7 @@ class testScene(SceneModel):
         self.player.canInteract = False
         
         self.dialogue = Dialogue()
+        self.fade(1920, 1080)
 
         ##CUTSCENES
         self.firstDialogue = False
@@ -71,6 +72,16 @@ class testScene(SceneModel):
         #self.enemy1 = NPC(self.wall, pygame.Vector2(0,0), self.tilemap)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
+    
+    def fade(self, width, height): 
+        fade = pygame.Surface((width, height))
+        fade.fill((0,0,0))
+        for alpha in range(255, 0, -1):
+            print(alpha)
+            fade.set_alpha(alpha)
+            pygame.display.update()
+            self.window.display.blit(fade, (0,0))
+            pygame.display.update()
 
     def ProcessInput(self, event, pressed_keys):
         self.isoPos = self.tilemap.cartesianToIsometric(pygame.Vector2(pygame.mouse.get_pos()[0] - self.camera.x, - self.camera.y + pygame.mouse.get_pos()[1] - 128))

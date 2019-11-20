@@ -27,7 +27,6 @@ class startMenu(SceneModel):
             pygame.display.update()
             self.window.display.blit(fade, (0,0))
             pygame.display.update()
-            pygame.time.delay(2)
         
     def ProcessInput(self, event, pressed_keys):
         pos = pygame.mouse.get_pos()
