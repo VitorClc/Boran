@@ -209,7 +209,7 @@ class Player(pygame.sprite.Sprite):
                 start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
                 end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
                 self.path = self.finder.find_path(start, end, self.grid)[0]
-                print(self.grid.grid_str(path=self.path, start=start, end=end))
+                #print(self.grid.grid_str(path=self.path, start=start, end=end))
                 self.goToPosition()
                 self.grid.cleanup()
 

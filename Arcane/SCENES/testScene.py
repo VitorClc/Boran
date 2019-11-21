@@ -69,18 +69,23 @@ class testScene(SceneModel):
         self.sixthDialogue = False
         self.seventhDialogue = False
 
-        #self.enemy1 = NPC(self.wall, pygame.Vector2(0,0), self.tilemap)
+        #self.enemy1 = NPC(self.wall, pygame.Vector2(896, -0), self.tilemap)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
     
-    def fade(self, width, height): 
-        fade = pygame.Surface((width, height))
-        fade.fill((0,0,0))
-        for alpha in range(255, 0, -1):
-            print(alpha)
-            fade.set_alpha(alpha)
+    def explosion(self, width, height): 
+        surface = pygame.Surface((width, height))
+        surface.fill((0,0,0))
+        for alpha in range(0, 3):
+            pygame.time.delay(100)
+            surface.fill((0,0,0))
             pygame.display.update()
-            self.window.display.blit(fade, (0,0))
+            self.window.display.blit(surface, (0,0))
+            pygame.display.update()
+            surface.fill((255,255,255))
+            pygame.time.delay(100)
+            pygame.display.update()
+            self.window.display.blit(surface, (0,0))
             pygame.display.update()
 
     def ProcessInput(self, event, pressed_keys):
@@ -118,7 +123,8 @@ class testScene(SceneModel):
                     self.seventhDialogue = True  
                 else:
                     self.dialogue.visible = False
-                    self.player.canInteract = True                                  
+                    self.explosion(1920, 1080)
+                    #self.player.canInteract = True                                  
 
     def Update(self):
         self.surface.fill((0,0,0))
@@ -126,7 +132,7 @@ class testScene(SceneModel):
         pygame.display.update(self.tilemap.groundSprite)
 
         self.camera.getPlayerPosition(self.player.isoMov)
-        #self.enemy1.Movement(pygame.Vector2(1,0), pygame.Vector2(3,2))
+        #self.enemy1.Movement(pygame.Vector2(6,0), pygame.Vector2(9,0))
 
         self.player.Update(self.camera, self.surface)
         #self.enemy1.Update(self.surface)
