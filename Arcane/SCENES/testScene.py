@@ -54,7 +54,7 @@ class testScene(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, pygame.Vector2(512,-768), self.tilemap)
+        self.player = Player(self.wall, pygame.Vector2(512,-768), self.tilemap, 1)
         self.player.canInteract = False
         
         self.dialogue = Dialogue()

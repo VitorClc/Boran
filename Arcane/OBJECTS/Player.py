@@ -25,8 +25,8 @@ runRightUp = [f for f in listdir(baseDir + "Running4/") if isfile(join(baseDir +
 stopSprites = ["Idle/5.png", "Idle/1.png", "Idle/7.png", "Idle/3.png", "Idle/8.png", "Idle/6.png", "Idle/2.png", "Idle/4.png"]
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, group, startPosition, tilemap):
-        self.sprite = "Idle/5.png"
+    def __init__(self, group, startPosition, tilemap, startSprite):
+        self.sprite = stopSprites[startSprite]
         self.image = pygame.image.load(baseDir + self.sprite)
         self.rect = self.image.get_rect(center=-startPosition)
 
@@ -49,7 +49,7 @@ class Player(pygame.sprite.Sprite):
         self.dY = 0
 
         ## ANIMATION
-        self.lastDir = 0
+        self.lastDir = startSprite
         self.walkCount = 0 
         self.animationSpeed = 35
         self.lastUpdate = 0
