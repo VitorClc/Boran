@@ -21,6 +21,9 @@ runLeftUp = [f for f in listdir(baseDir + "Running6/") if isfile(join(baseDir + 
 runRightBack = [f for f in listdir(baseDir + "Running2/") if isfile(join(baseDir + "Running2/", f))]
 runRightUp = [f for f in listdir(baseDir + "Running4/") if isfile(join(baseDir + "Running4/", f))]
 
+standingUP = [f for f in listdir(baseDir + "StandingUP/") if isfile(join(baseDir + "StandingUP/", f))]
+
+
 # 0 = Front; 1 = Back; 2 = Left; 3 = Right; 4 = Left-Back; 5 = Left-Up; 6 = Right-Back; 7 = Right-Up
 stopSprites = ["Idle/5.png", "Idle/1.png", "Idle/7.png", "Idle/3.png", "Idle/8.png", "Idle/6.png", "Idle/2.png", "Idle/4.png"]
 
@@ -36,6 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.destination = pygame.math.Vector2(startPosition.x, startPosition.y)
 
         self.canInteract = True
+        self.useDepth = True
 
         self.mapData = tilemap.map
         self.grid = Grid(matrix=tilemap.map)
@@ -53,6 +57,8 @@ class Player(pygame.sprite.Sprite):
         self.walkCount = 0 
         self.animationSpeed = 35
         self.lastUpdate = 0
+
+        self.standUp = False
 
         self.tilemap = tilemap
         
@@ -158,6 +164,15 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.elapsed = 0
                 self.walkCount = 2
+
+        elif(self.standUp == True):
+            if(self.walkCount < 185):
+                self.image = pygame.image.load(baseDir + "StandingUP/" + standingUP[self.walkCount])
+                #self.lastDir = 5
+                self.walkCount += 1
+                self.lastUpdate = pygame.time.get_ticks()
+            else:
+                self.standUp = False
 
         elif(self.dY == 0 and self.dX == 0):
             self.image = pygame.image.load(baseDir + stopSprites[self.lastDir])

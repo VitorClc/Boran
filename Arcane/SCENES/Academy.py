@@ -24,7 +24,7 @@ class YAwareGroup(pygame.sprite.Group):
         sprites = self.sprites()
         surface_blit = surface.blit
         for spr in sorted(sprites, key=self.by_y):
-            if(hasattr(spr, "sprite") == False):
+            if(hasattr(spr, "sprite") == False & player.useDepth == True):
                 if(spr.isoPos.y < player.isoReal.y and spr.isoPos.y == player.isoReal.y - 1):
                     if(spr.isoPos.x - player.isoReal.x < 2 and spr.isoPos.x - player.isoReal.x >= 0):
                         spr.image.set_alpha(70)
@@ -39,7 +39,7 @@ class YAwareGroup(pygame.sprite.Group):
 
         self.lostsprites = []
 
-class testScene(SceneModel):
+class Academy(SceneModel):
     def Start(self, _gameWindow, sceneManager):
         self.window = _gameWindow
         self.sceneManager = sceneManager
@@ -56,6 +56,7 @@ class testScene(SceneModel):
 
         self.player = Player(self.wall, pygame.Vector2(512,-768), self.tilemap, 1)
         self.player.canInteract = False
+        self.player.useDepth = False
         
         self.dialogue = Dialogue()
         #self.fade(1920, 1080)
@@ -122,6 +123,7 @@ class testScene(SceneModel):
                     self.dialogue.setText("Meu jovem irmão, pelos boatos que ouvi, um dos maiores mestres \nde Muay Thai caiu diante de um jovem mago Apolda... Os nossos \nmelhores guerreiros são ineficazes sem o equilíbrio da natureza...")
                     self.seventhDialogue = True  
                 else:
+                    self.SwitchToScene(self.sceneManager.scenesArray[2])
                     self.dialogue.visible = False
                     self.explosion(1920, 1080)
                     #self.player.canInteract = True                                  

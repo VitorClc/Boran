@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="isometric" renderorder="right-down" width="10" height="10" tilewidth="256" tileheight="128" nextobjectid="1">
- <tileset firstgid="1" source="../tileset_boran001.tsx"/>
- <tileset firstgid="82" source="../tileset_janelas.tsx"/>
+ <tileset firstgid="1" source="../TILESETS/tileset_boran001.tsx"/>
+ <tileset firstgid="82" source="../TILESETS/tileset_janelas.tsx"/>
  <layer name="1A_Chao" width="10" height="10">
   <data encoding="csv">
 15,15,5,14,14,14,14,14,16,16,
