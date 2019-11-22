@@ -5,7 +5,7 @@ from Core.Tilemap import Loader
 from Core.Dialogue import Dialogue
 
 from OBJECTS.Player import Player
-from OBJECTS.NPC import NPC
+from OBJECTS.Kamon import Kamon
 
 class PlayerFollow(object):
     def __init__(self, startPosition):
@@ -54,7 +54,7 @@ class testScene(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, pygame.Vector2(640,-512), self.tilemap)
+        self.player = Player(self.wall, pygame.Vector2(512,-768), self.tilemap)
         self.player.canInteract = False
         
         self.dialogue = Dialogue()
@@ -69,21 +69,21 @@ class testScene(SceneModel):
         self.sixthDialogue = False
         self.seventhDialogue = False
 
-        #self.enemy1 = NPC(self.wall, pygame.Vector2(896, -0), self.tilemap)
+        self.kamon = Kamon(self.wall, pygame.Vector2(512, -640), self.tilemap, 0)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
     
     def explosion(self, width, height): 
         surface = pygame.Surface((width, height))
         surface.fill((0,0,0))
-        for alpha in range(0, 3):
-            pygame.time.delay(100)
+        for i in range(0, 3):
+            pygame.time.delay(300)
             surface.fill((0,0,0))
             pygame.display.update()
             self.window.display.blit(surface, (0,0))
             pygame.display.update()
             surface.fill((255,255,255))
-            pygame.time.delay(100)
+            pygame.time.delay(300)
             pygame.display.update()
             self.window.display.blit(surface, (0,0))
             pygame.display.update()
@@ -132,10 +132,9 @@ class testScene(SceneModel):
         pygame.display.update(self.tilemap.groundSprite)
 
         self.camera.getPlayerPosition(self.player.isoMov)
-        #self.enemy1.Movement(pygame.Vector2(6,0), pygame.Vector2(9,0))
 
         self.player.Update(self.camera, self.surface)
-        #self.enemy1.Update(self.surface)
+        self.kamon.Update(self.surface)
 
         self.wall.draw(self.surface, self.player)
         
