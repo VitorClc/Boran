@@ -12,10 +12,24 @@ class PlayerFollow(object):
     def __init__(self, startPosition):
         self.x = startPosition[0]
         self.y = startPosition[1]
+        self.followPlayer = True
 
     def getPlayerPosition(self, playerPos):
-        self.x = -playerPos.x + 1000
-        self.y = -playerPos.y + 400
+        if(self.followPlayer == True):
+            self.x = -playerPos.x + 1000
+            self.y = -playerPos.y + 400
+    
+    def goToPosition(self, position):
+        if(self.followPlayer == False):
+            if(position.x < self.x):
+                dX = -10
+            elif(position.x > self.x):
+                dX = 10
+            elif(position.x == self.x):
+                dX = 0
+            
+            self.x += dX
+            print(self.x)
 
 class YAwareGroup(pygame.sprite.Group):
     def by_y(self, spr):
@@ -71,11 +85,13 @@ class Ruins(SceneModel):
         self.fifthDialogue = False
         self.sixthDialogue = False
         self.seventhDialogue = False
+        self.cameraDragToEnemies = False
 
         self.kamon = Kamon(self.wall, pygame.Vector2(512, -640), self.tilemap, 1)
-        self.enemy = NPC(self.wall, pygame.Vector2(896, -0), self.tilemap)
+        #self.enemy = NPC(self.wall, pygame.Vector2(896, -0), self.tilemap)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
+        self.camera.followPlayer = True
         
     def explosion(self, width, height): 
         surface = pygame.Surface((width, height))
@@ -126,6 +142,7 @@ class Ruins(SceneModel):
                     self.dialogue.setText("Irmão??")
                     self.seventhDialogue = True  
                 else:
+                    self.cameraDragToEnemies = True
                     #self.SwitchToScene(self.sceneManager.scenesArray[2])
                     self.dialogue.visible = False
                     #self.explosion(1920, 1080)
@@ -146,8 +163,8 @@ class Ruins(SceneModel):
         self.player.Update(self.camera, self.surface)
         self.kamon.Update(self.surface)
 
-        self.enemy.Movement(pygame.Vector2(6,0), pygame.Vector2(9,0))
-        self.enemy.Update(self.surface)
+        #self.enemy.Movement(pygame.Vector2(6,0), pygame.Vector2(9,0))
+        #self.enemy.Update(self.surface)
 
         self.wall.draw(self.surface, self.player)
         
@@ -158,6 +175,10 @@ class Ruins(SceneModel):
 
         if(len(self.dialogue.text) < len(self.dialogue.completeText)):
             self.dialogue.updateText()
+        
+        if(self.seventhDialogue == True & self.cameraDragToEnemies == True):
+            self.camera.followPlayer = False
+            self.camera.goToPosition(pygame.Vector2(-1200, 0))
 
         #if(self.player.isoReal.x == 3 and self.player.isoReal.y == 7):
         #    self.SwitchToScene(self.sceneManager.scenesArray[2])
