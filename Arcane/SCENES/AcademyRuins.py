@@ -19,7 +19,7 @@ class PlayerFollow(object):
             self.x = -playerPos.x + 1000
             self.y = -playerPos.y + 400
     
-    def goToPosition(self, position):
+    def goToPosition(self, position, debug):
         if(self.followPlayer == False):
             if(position.x < self.x):
                 dX = -10
@@ -29,7 +29,12 @@ class PlayerFollow(object):
                 dX = 0
             
             self.x += dX
-            print(self.x)
+
+            if(debug == True):
+                print(self.x)
+
+    def getPositionX(self):
+        return self.x
 
 class YAwareGroup(pygame.sprite.Group):
     def by_y(self, spr):
@@ -50,7 +55,8 @@ class YAwareGroup(pygame.sprite.Group):
                 else:
                     spr.image.set_alpha(255)
 
-            self.spritedict[spr] = surface_blit(spr.image, spr.rect)
+            if(hasattr(spr, "visible") == False):
+                self.spritedict[spr] = surface_blit(spr.image, spr.rect)
 
         self.lostsprites = []
 
@@ -86,9 +92,11 @@ class Ruins(SceneModel):
         self.sixthDialogue = False
         self.seventhDialogue = False
         self.cameraDragToEnemies = False
+        self.createdEnemies = False
+        self.finishedEnemyDialog = False
+        self.finishedEnemyDialog2 = False
 
         self.kamon = Kamon(self.wall, pygame.Vector2(512, -640), self.tilemap, 1)
-        #self.enemy = NPC(self.wall, pygame.Vector2(896, -0), self.tilemap)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
         self.camera.followPlayer = True
@@ -146,12 +154,8 @@ class Ruins(SceneModel):
                     #self.SwitchToScene(self.sceneManager.scenesArray[2])
                     self.dialogue.visible = False
                     #self.explosion(1920, 1080)
-                    self.player.canInteract = True   
-                    self.player.useDepth = True 
-
-        #elif(len(self.dialogue.text) == len(self.dialogue.completeText)):
-        #    if event.type == pygame.MOUSEBUTTONDOWN:
-        #            self.player.canInteract = True                                  
+                    #self.player.canInteract = True   
+                    #self.player.useDepth = True 
 
     def Update(self):
         self.surface.fill((0,0,0))
@@ -162,9 +166,6 @@ class Ruins(SceneModel):
 
         self.player.Update(self.camera, self.surface)
         self.kamon.Update(self.surface)
-
-        #self.enemy.Movement(pygame.Vector2(6,0), pygame.Vector2(9,0))
-        #self.enemy.Update(self.surface)
 
         self.wall.draw(self.surface, self.player)
         
@@ -178,7 +179,26 @@ class Ruins(SceneModel):
         
         if(self.seventhDialogue == True & self.cameraDragToEnemies == True):
             self.camera.followPlayer = False
-            self.camera.goToPosition(pygame.Vector2(-1200, 0))
+            self.camera.goToPosition(pygame.Vector2(-1200, 0), False)
+
+            if(self.camera.getPositionX() == -1200):
+                if( self.createdEnemies == False):
+                    self.enemy2 = NPC(self.wall, pygame.Vector2(896, -1152), self.tilemap, 1)
+                    self.enemy = NPC(self.wall, pygame.Vector2(1024, -1152), self.tilemap, 1)
+                    self.enemy3 = NPC(self.wall, pygame.Vector2(1152, -1152), self.tilemap, 1)
+
+                    self.createdEnemies = True
+
+
+        if(self.createdEnemies == True):
+            self.enemy.Update(self.surface)
+            self.enemy2.Update(self.surface)
+            self.enemy3.Update(self.surface)
+
+            if(self.finishedEnemyDialog == False):
+                self.enemy.Movement(pygame.Vector2(8, 9), pygame.Vector2(8, 8))
+                self.finishedEnemyDialog = True
+            
 
         #if(self.player.isoReal.x == 3 and self.player.isoReal.y == 7):
         #    self.SwitchToScene(self.sceneManager.scenesArray[2])

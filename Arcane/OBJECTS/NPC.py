@@ -25,7 +25,7 @@ runRightUp = [f for f in listdir(baseDir + "Running4/") if isfile(join(baseDir +
 stopSprites = ["Idle/5.png", "Idle/1.png", "Idle/7.png", "Idle/3.png", "Idle/8.png", "Idle/6.png", "Idle/2.png", "Idle/4.png"]
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, group, startPosition, tilemap):
+    def __init__(self, group, startPosition, tilemap, startDirection):
         self.sprite = "Idle/5.png"
         self.image = pygame.image.load(baseDir + self.sprite)
         self.rect = self.image.get_rect(center=-startPosition)
@@ -49,9 +49,9 @@ class NPC(pygame.sprite.Sprite):
         self.dY = 0
 
         ## ANIMATION
-        self.lastDir = 0
+        self.lastDir = startDirection
         self.walkCount = 0 
-        self.animationSpeed = 35
+        self.animationSpeed = 28
         self.lastUpdate = 0
 
         self.tilemap = tilemap
@@ -60,7 +60,7 @@ class NPC(pygame.sprite.Sprite):
 
     def cartesianToIsometric(self, cartesian):
         self.isoMov = pygame.math.Vector2((cartesian.x - cartesian.y) + self.tilemap.tileSize.x / 2 + 12, (cartesian.x + cartesian.y) / 2 + self.tilemap.tileSize.y * 4 + 200)
-        self.isoReal = pygame.math.Vector2(cartesian.x / 128, -cartesian.y / 128)
+        self.isoReal = pygame.math.Vector2(cartesian.x / 128, cartesian.y / 128)
 
     def getAnimation(self):
         ## UP
@@ -164,7 +164,7 @@ class NPC(pygame.sprite.Sprite):
 
     def checkPosition(self):
         if(self.moving == True):
-            if(self.isoReal.x == self.destination.x and -self.isoReal.y == self.destination.y):
+            if(self.isoReal.x == self.destination.x and self.isoReal.y == self.destination.y):
                 self.dX = 0
                 self.dY = 0
                 self.actualPath += 1
@@ -174,7 +174,8 @@ class NPC(pygame.sprite.Sprite):
             elif(self.isoReal.x == self.destination.x):
                 self.dX = 0
 
-            elif(-self.isoReal.y == self.destination.y):
+            elif(self.isoReal.y == self.destination.y):
+                print("a")
                 self.dY = 0
 
     def goToPosition(self):
@@ -190,9 +191,9 @@ class NPC(pygame.sprite.Sprite):
                     self.dX = 0
 
                 ## CHECK Y
-                if(-self.isoReal.y > self.destination.y):
+                if(self.isoReal.y > self.destination.y):
                     self.dY = -1
-                elif(-self.isoReal.y < self.destination.y):
+                elif(self.isoReal.y < self.destination.y):
                     self.dY = 1
                 else:
                     self.dY = 0
@@ -206,16 +207,18 @@ class NPC(pygame.sprite.Sprite):
         start = self.grid.node(int(start.x), int(start.y))
         end = self.grid.node(int(end.x), int(end.y))
         self.path = self.finder.find_path(start, end, self.grid)[0]
+        print(self.path)
         self.goToPosition()
         self.grid.cleanup()
 
     def Update(self, surface):
         self.checkPosition()
 
-        self.cartesianPos.x += self.dX
-        self.cartesianPos.y += self.dY
+        self.getAnimation()
+
+        self.cartesianPos.x += self.dX * 1.2
+        self.cartesianPos.y += self.dY * 1.2
 
         self.cartesianToIsometric(self.cartesianPos) 
 
-        self.getAnimation()
         self.rect.center = pygame.Vector2(self.isoMov.x, self.isoMov.y)
