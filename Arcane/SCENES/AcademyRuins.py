@@ -6,6 +6,7 @@ from Core.Dialogue import Dialogue
 
 from OBJECTS.Player import Player
 from OBJECTS.Kamon import Kamon
+from OBJECTS.NPC import NPC
 
 class PlayerFollow(object):
     def __init__(self, startPosition):
@@ -64,8 +65,15 @@ class Ruins(SceneModel):
 
         ##CUTSCENES
         self.firstDialogue = False
+        self.secondDialogue = False
+        self.thirdDialogue = False
+        self.fourthDialogue = False
+        self.fifthDialogue = False
+        self.sixthDialogue = False
+        self.seventhDialogue = False
 
         self.kamon = Kamon(self.wall, pygame.Vector2(512, -640), self.tilemap, 1)
+        self.enemy = NPC(self.wall, pygame.Vector2(896, -0), self.tilemap)
 
         self.camera = PlayerFollow(self.player.cartesianPos)
         
@@ -91,6 +99,39 @@ class Ruins(SceneModel):
         if(self.firstDialogue == True & (len(self.dialogue.text) < len(self.dialogue.completeText))):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.dialogue.text = self.dialogue.completeText
+        elif(len(self.dialogue.text) == len(self.dialogue.completeText)):
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if(self.secondDialogue == False):
+                    self.dialogue.setCharName("Kamon")
+                    self.dialogue.setText("Ahh!...")
+                    self.secondDialogue = True
+                elif(self.thirdDialogue == False):
+                    self.dialogue.setCharName("Boran")
+                    self.dialogue.setText("Irmão, não me deixe! Eu preciso de você, a vila precisa de você...")
+                    self.thirdDialogue = True
+                elif(self.fourthDialogue == False):
+                    self.dialogue.setCharName("Kamon")
+                    self.dialogue.setText("Boran, meu fim está próximo mas o seu está longe...\n Preciso que você vá para a Floresta dos Ventos e\n procure por Sunan...")
+                    self.fourthDialogue = True
+                elif(self.fifthDialogue == False):
+                    self.dialogue.setCharName("Boran")
+                    self.dialogue.setText("Sunan?")
+                    self.fifthDialogue = True
+                elif(self.sixthDialogue == False):
+                    self.dialogue.setCharName("Kamon")
+                    self.dialogue.setText("... E nunca lute com nenhum deles, ainda não estamos preparados...")
+                    self.sixthDialogue = True
+                elif(self.seventhDialogue == False):
+                    self.dialogue.setCharName("Boran")
+                    self.dialogue.setText("Irmão??")
+                    self.seventhDialogue = True  
+                else:
+                    #self.SwitchToScene(self.sceneManager.scenesArray[2])
+                    self.dialogue.visible = False
+                    #self.explosion(1920, 1080)
+                    self.player.canInteract = True   
+                    self.player.useDepth = True 
+
         #elif(len(self.dialogue.text) == len(self.dialogue.completeText)):
         #    if event.type == pygame.MOUSEBUTTONDOWN:
         #            self.player.canInteract = True                                  
@@ -105,9 +146,14 @@ class Ruins(SceneModel):
         self.player.Update(self.camera, self.surface)
         self.kamon.Update(self.surface)
 
+        self.enemy.Movement(pygame.Vector2(6,0), pygame.Vector2(9,0))
+        self.enemy.Update(self.surface)
+
         self.wall.draw(self.surface, self.player)
         
         if(self.firstDialogue == False):
+            self.dialogue.setCharName("Boran")
+            self.dialogue.setText("Irmão!?")
             self.firstDialogue = True
 
         if(len(self.dialogue.text) < len(self.dialogue.completeText)):
@@ -120,7 +166,7 @@ class Ruins(SceneModel):
 
     def Render(self):
         self.window.display.blit(self.surface,(self.camera.x, self.camera.y))
-        #self.dialogue.Draw(self.window.display)
+        self.dialogue.Draw(self.window.display)
         pygame.display.update(self.window.display.get_rect())
         
     def Destroy(self):

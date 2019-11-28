@@ -175,6 +175,7 @@ class Player(pygame.sprite.Sprite):
                 self.standUp = False
 
         elif(self.dY == 0 and self.dX == 0):
+            self.standUp = False
             self.image = pygame.image.load(baseDir + stopSprites[self.lastDir])
 
     def checkPosition(self):
@@ -219,14 +220,15 @@ class Player(pygame.sprite.Sprite):
 
     def ProcessInputs(self, isoClickPos):
         if(self.canInteract == True):
-            mouseClick = pygame.mouse.get_pressed()         
-            if mouseClick[0] == 1:
-                start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
-                end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
-                self.path = self.finder.find_path(start, end, self.grid)[0]
-                #print(self.grid.grid_str(path=self.path, start=start, end=end))
-                self.goToPosition()
-                self.grid.cleanup()
+            if(self.actualPath == 0):
+                mouseClick = pygame.mouse.get_pressed()         
+                if mouseClick[0] == 1:
+                    start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
+                    end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
+                    self.path = self.finder.find_path(start, end, self.grid)[0]
+                    #print(self.grid.grid_str(path=self.path, start=start, end=end))
+                    self.goToPosition()
+                    self.grid.cleanup()
 
     def Update(self, camera, surface):
         self.checkPosition()
