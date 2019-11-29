@@ -93,8 +93,16 @@ class Ruins(SceneModel):
         self.seventhDialogue = False
         self.cameraDragToEnemies = False
         self.createdEnemies = False
-        self.finishedEnemyDialog = False
-        self.finishedEnemyDialog2 = False
+        self.reopenDialog = False
+        self.soldiersResponse = False
+        self.soldiersWalk = True
+        self.firstBlock = True
+        self.secondBlock = False
+
+        self.enemy2Patrol = 0
+        self.enemy3Patrol = 0
+
+        self.nextLevel = False
 
         self.kamon = Kamon(self.wall, pygame.Vector2(512, -640), self.tilemap, 1)
 
@@ -125,90 +133,130 @@ class Ruins(SceneModel):
                 self.dialogue.text = self.dialogue.completeText
         elif(len(self.dialogue.text) == len(self.dialogue.completeText)):
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if(self.secondDialogue == False):
-                    self.dialogue.setCharName("Kamon")
-                    self.dialogue.setText("Ahh!...")
-                    self.secondDialogue = True
-                elif(self.thirdDialogue == False):
-                    self.dialogue.setCharName("Boran")
-                    self.dialogue.setText("Irmão, não me deixe! Eu preciso de você, a vila precisa de você...")
-                    self.thirdDialogue = True
-                elif(self.fourthDialogue == False):
-                    self.dialogue.setCharName("Kamon")
-                    self.dialogue.setText("Boran, meu fim está próximo mas o seu está longe...\n Preciso que você vá para a Floresta dos Ventos e\n procure por Sunan...")
-                    self.fourthDialogue = True
-                elif(self.fifthDialogue == False):
-                    self.dialogue.setCharName("Boran")
-                    self.dialogue.setText("Sunan?")
-                    self.fifthDialogue = True
-                elif(self.sixthDialogue == False):
-                    self.dialogue.setCharName("Kamon")
-                    self.dialogue.setText("... E nunca lute com nenhum deles, ainda não estamos preparados...")
-                    self.sixthDialogue = True
-                elif(self.seventhDialogue == False):
-                    self.dialogue.setCharName("Boran")
-                    self.dialogue.setText("Irmão??")
-                    self.seventhDialogue = True  
+                if(self.firstBlock == True):
+                    if(self.secondDialogue == False):
+                        self.dialogue.setCharName("Kamon")
+                        self.dialogue.setText("Ahh!...")
+                        self.secondDialogue = True
+                    elif(self.thirdDialogue == False):
+                        self.dialogue.setCharName("Boran")
+                        self.dialogue.setText("Irmão, não me deixe! Eu preciso de você, a vila precisa de você...")
+                        self.thirdDialogue = True
+                    elif(self.fourthDialogue == False):
+                        self.dialogue.setCharName("Kamon")
+                        self.dialogue.setText("Boran, meu fim está próximo mas o seu está longe...\n Preciso que você vá para a Floresta dos Ventos e\n procure por Sunan...")
+                        self.fourthDialogue = True
+                    elif(self.fifthDialogue == False):
+                        self.dialogue.setCharName("Boran")
+                        self.dialogue.setText("Sunan?")
+                        self.fifthDialogue = True
+                    elif(self.sixthDialogue == False):
+                        self.dialogue.setCharName("Kamon")
+                        self.dialogue.setText("... E nunca lute com nenhum deles, ainda não estamos preparados...")
+                        self.sixthDialogue = True
+                    elif(self.seventhDialogue == False):
+                        self.dialogue.setCharName("Boran")
+                        self.dialogue.setText("Irmão??")
+                        self.seventhDialogue = True  
+                    else:
+                        self.dialogue.visible = False
+                        self.cameraDragToEnemies = True
+                        self.firstBlock = False
+
+                elif(self.secondBlock == True):
+                    if(self.soldiersResponse == False):
+                        self.dialogue.setCharName("Soldados")
+                        self.dialogue.setText("Sim Senhor!")
+                        self.soldiersResponse = True
+                    else:
+                        self.player.canInteract = True
+                        self.player.useDepth = True
+                        self.camera.followPlayer = True
+                        self.dialogue.visible = False
+                        self.cameraDragToEnemies = False
+                        self.secondBlock = False    
                 else:
-                    self.cameraDragToEnemies = True
-                    #self.SwitchToScene(self.sceneManager.scenesArray[2])
-                    self.dialogue.visible = False
-                    #self.explosion(1920, 1080)
-                    #self.player.canInteract = True   
-                    #self.player.useDepth = True 
+                    self.soldiersWalk = True
 
     def Update(self):
-        self.surface.fill((0,0,0))
-        self.tilemap.DrawGround(self.surface, self.camera)
-        pygame.display.update(self.tilemap.groundSprite)
+        if(self.nextLevel == False):
+            self.surface.fill((0,0,0))
+            self.tilemap.DrawGround(self.surface, self.camera)
+            pygame.display.update(self.tilemap.groundSprite)
 
-        self.camera.getPlayerPosition(self.player.isoMov)
+            self.camera.getPlayerPosition(self.player.isoMov)
 
-        self.player.Update(self.camera, self.surface)
-        self.kamon.Update(self.surface)
+            self.player.Update(self.camera, self.surface)
+            self.kamon.Update(self.surface)
 
-        self.wall.draw(self.surface, self.player)
-        
-        if(self.firstDialogue == False):
-            self.dialogue.setCharName("Boran")
-            self.dialogue.setText("Irmão!?")
-            self.firstDialogue = True
-
-        if(len(self.dialogue.text) < len(self.dialogue.completeText)):
-            self.dialogue.updateText()
-        
-        if(self.seventhDialogue == True & self.cameraDragToEnemies == True):
-            self.camera.followPlayer = False
-            self.camera.goToPosition(pygame.Vector2(-1200, 0), False)
-
-            if(self.camera.getPositionX() == -1200):
-                if( self.createdEnemies == False):
-                    self.enemy2 = NPC(self.wall, pygame.Vector2(896, -1152), self.tilemap, 1)
-                    self.enemy = NPC(self.wall, pygame.Vector2(1024, -1152), self.tilemap, 1)
-                    self.enemy3 = NPC(self.wall, pygame.Vector2(1152, -1152), self.tilemap, 1)
-
-                    self.createdEnemies = True
-
-
-        if(self.createdEnemies == True):
-            self.enemy.Update(self.surface)
-            self.enemy2.Update(self.surface)
-            self.enemy3.Update(self.surface)
-
-            if(self.finishedEnemyDialog == False):
-                self.enemy.Movement(pygame.Vector2(8, 9), pygame.Vector2(8, 8))
-                self.finishedEnemyDialog = True
+            self.wall.draw(self.surface, self.player)
             
+            if(self.firstDialogue == False):
+                self.dialogue.setCharName("Boran")
+                self.dialogue.setText("Irmão!?")
+                self.firstDialogue = True
 
-        #if(self.player.isoReal.x == 3 and self.player.isoReal.y == 7):
-        #    self.SwitchToScene(self.sceneManager.scenesArray[2])
-        #    self.Destroy()
-        #    pygame.display.flip()         
+            if(len(self.dialogue.text) < len(self.dialogue.completeText)):
+                self.dialogue.updateText()
+            
+            if(self.seventhDialogue == True & self.cameraDragToEnemies == True):
+                self.camera.followPlayer = False
+                self.camera.goToPosition(pygame.Vector2(-1200, 0), False)
+
+                if(self.camera.getPositionX() == -1200):
+                    if( self.createdEnemies == False):
+                        self.enemy2 = NPC(self.wall, pygame.Vector2(896, -1152), self.tilemap, 1)
+                        self.enemy = NPC(self.wall, pygame.Vector2(1024, -1152), self.tilemap, 1)
+                        self.enemy3 = NPC(self.wall, pygame.Vector2(1152, -1152), self.tilemap, 1)
+
+                        self.createdEnemies = True
+
+            if(self.createdEnemies == True):
+                self.enemy.Update(self.surface)
+                self.enemy2.Update(self.surface)
+                self.enemy3.Update(self.surface)
+
+                if(self.reopenDialog == False):
+                    self.enemy.goToPosition(pygame.Vector2(1024, -1024))
+                    if(int(self.enemy.isoReal.y) == -1024):
+                        self.secondBlock = True
+                        self.dialogue.visible = True
+                        self.dialogue.setCharName("Tenente")
+                        self.dialogue.setText("Eliminem os sobreviventes")
+                        self.reopenDialog = True
+            
+                if(self.soldiersResponse == True & self.reopenDialog == True & self.soldiersWalk == True):       
+                    if(self.enemy2Patrol == 0):
+                        self.enemy2.goToPosition(pygame.Vector2(128, -1180))
+                    elif(self.enemy2Patrol == 1):
+                        self.enemy2.goToPosition(pygame.Vector2(896, -1180))
+            
+                    if(self.enemy2.moving == False and int(self.enemy2.isoReal.x) == 896):       
+                        self.enemy2Patrol = 0
+                    elif(self.enemy2.moving == False and int(self.enemy2.isoReal.x) < 180):
+                        self.enemy2Patrol = 1
+
+                    if(self.enemy3Patrol == 0):
+                        self.enemy3.goToPosition(pygame.Vector2(1152, 0))
+                    elif(self.enemy3Patrol == 1):
+                        self.enemy3.goToPosition(pygame.Vector2(1152, -1152))
+            
+                    if(self.enemy3.moving == False and int(self.enemy3.isoReal.y) == -1152):       
+                        self.enemy3Patrol = 0
+                    elif(self.enemy2.moving == False and int(self.enemy3.isoReal.y) < 2):
+                        self.enemy3Patrol = 1
+
+            if(self.player.isoReal.x == 0):
+                self.nextLevel = True
+                self.SwitchToScene(self.sceneManager.scenesArray[1])
+                self.Destroy()
+                pygame.display.flip()         
 
     def Render(self):
-        self.window.display.blit(self.surface,(self.camera.x, self.camera.y))
-        self.dialogue.Draw(self.window.display)
-        pygame.display.update(self.window.display.get_rect())
+        if(self.nextLevel == False):
+            self.window.display.blit(self.surface,(self.camera.x, self.camera.y))
+            self.dialogue.Draw(self.window.display)
+            pygame.display.update(self.window.display.get_rect())
         
     def Destroy(self):
         self.surface.fill((0,0,0,0))

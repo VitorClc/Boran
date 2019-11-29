@@ -33,18 +33,11 @@ class NPC(pygame.sprite.Sprite):
         self.cartesianPos = pygame.math.Vector2(startPosition.x, startPosition.y)
         self.isoMov = pygame.math.Vector2(startPosition.x, startPosition.y)
         self.isoReal = pygame.math.Vector2(startPosition.x, startPosition.y)
-        self.destination = pygame.math.Vector2(startPosition.x, startPosition.y)
 
         self.canInteract = True
 
         self.mapData = tilemap.map
-        self.grid = Grid(matrix=tilemap.map)
 
-        self.finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
-        self.path = 0
-        self.actualPath = 0
-        self.moving = False
-        
         self.dX = 0
         self.dY = 0
 
@@ -56,11 +49,13 @@ class NPC(pygame.sprite.Sprite):
 
         self.tilemap = tilemap
         
+        self.moving = False
+
         pygame.sprite.Sprite.__init__(self, group)
 
     def cartesianToIsometric(self, cartesian):
         self.isoMov = pygame.math.Vector2((cartesian.x - cartesian.y) + self.tilemap.tileSize.x / 2 + 12, (cartesian.x + cartesian.y) / 2 + self.tilemap.tileSize.y * 4 + 200)
-        self.isoReal = pygame.math.Vector2(cartesian.x / 128, cartesian.y / 128)
+        self.isoReal = pygame.math.Vector2(cartesian.x, cartesian.y)
 
     def getAnimation(self):
         ## UP
@@ -162,57 +157,29 @@ class NPC(pygame.sprite.Sprite):
         elif(self.dY == 0 and self.dX == 0):
             self.image = pygame.image.load(baseDir + stopSprites[self.lastDir])
 
-    def checkPosition(self):
-        if(self.moving == True):
-            if(self.isoReal.x == self.destination.x and self.isoReal.y == self.destination.y):
+    def goToPosition(self, position):
+            ## CHECK X
+            if(int(self.isoReal.x) > position.x + 3):
+                self.dX = -1
+            elif(int(self.isoReal.x) < position.x - 3):
+                self.dX = 1
+            elif(int(self.isoReal.x) == position.x + 1 or int(self.isoReal.x) == position.x - 1 or int(self.isoReal.x) == position.x):
                 self.dX = 0
+
+            ## CHECK Y
+            if(int(self.isoReal.y) > position.y + 2):
+                self.dY = -1
+            elif(int(self.isoReal.y) < position.y - 2):
+                self.dY = 1
+            elif(int(self.isoReal.y) == position.y):
                 self.dY = 0
-                self.actualPath += 1
+            
+            if(self.dY == 0 and self.dX == 0):
                 self.moving = False
-                self.goToPosition()
-
-            elif(self.isoReal.x == self.destination.x):
-                self.dX = 0
-
-            elif(self.isoReal.y == self.destination.y):
-                print("a")
-                self.dY = 0
-
-    def goToPosition(self):
-        if(self.actualPath < len(self.path)):
-            if(self.moving == False):
-                self.destination = pygame.math.Vector2(self.path[self.actualPath][0], -self.path[self.actualPath][1])
-                ## CHECK X
-                if(self.isoReal.x > self.destination.x):
-                    self.dX = -1
-                elif(self.isoReal.x < self.destination.x):
-                    self.dX = 1
-                else:
-                    self.dX = 0
-
-                ## CHECK Y
-                if(self.isoReal.y > self.destination.y):
-                    self.dY = -1
-                elif(self.isoReal.y < self.destination.y):
-                    self.dY = 1
-                else:
-                    self.dY = 0
-
+            else:
                 self.moving = True
-        else:
-            self.path = 0
-            self.actualPath = 0
-
-    def Movement(self, start, end):
-        start = self.grid.node(int(start.x), int(start.y))
-        end = self.grid.node(int(end.x), int(end.y))
-        self.path = self.finder.find_path(start, end, self.grid)[0]
-        print(self.path)
-        self.goToPosition()
-        self.grid.cleanup()
 
     def Update(self, surface):
-        self.checkPosition()
 
         self.getAnimation()
 
