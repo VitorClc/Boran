@@ -55,7 +55,7 @@ class Player(pygame.sprite.Sprite):
         ## ANIMATION
         self.lastDir = startSprite
         self.walkCount = 0 
-        self.animationSpeed = 35
+        self.animationSpeed = 20
         self.lastUpdate = 0
 
         self.standUp = False
@@ -220,16 +220,17 @@ class Player(pygame.sprite.Sprite):
 
     def ProcessInputs(self, isoClickPos):
         if(self.canInteract == True):
-            if(self.actualPath == 0):
-                mouseClick = pygame.mouse.get_pressed()         
-                if mouseClick[0] == 1:
-                    start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
-                    end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
-                    self.path = self.finder.find_path(start, end, self.grid)[0]
-                    #print(self.grid.grid_str(path=self.path, start=start, end=end))
-                    self.goToPosition()
-                    self.grid.cleanup()
-
+            if(isoClickPos.x >= 0 and isoClickPos.x <= 9 and isoClickPos.y >= 0 and isoClickPos.y <= 9):
+                if(self.actualPath == 0):
+                    mouseClick = pygame.mouse.get_pressed()         
+                    if mouseClick[0] == 1:
+                        start = self.grid.node(int(self.isoReal.x), int(self.isoReal.y))
+                        end = self.grid.node(int(isoClickPos.x), int(isoClickPos.y))
+                        self.path = self.finder.find_path(start, end, self.grid)[0]
+                        #print(self.grid.grid_str(path=self.path, start=start, end=end))
+                        self.goToPosition()
+                        self.grid.cleanup()
+                    
     def Update(self, camera, surface):
         self.checkPosition()
 

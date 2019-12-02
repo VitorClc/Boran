@@ -48,7 +48,7 @@ class SceneModel():
     def __init__(self):
         self.next = self
 
-    def Start(self, _gameWindow, sceneManager):
+    def Start(self, _gameWindow, sceneManager, startPos):
         self.window = _gameWindow
         self.sceneManager = sceneManager
         pass
@@ -62,10 +62,10 @@ class SceneModel():
     def Render(self, screen):
         pass
 
-    def SwitchToScene(self, next_scene):
+    def SwitchToScene(self, next_scene, args):
         self.next = next_scene
         if(next_scene != None):
-            self.next.Start(self.window, self.sceneManager)
+            self.next.Start(self.window, self.sceneManager, args)
         
     def Terminate(self):
-        self.SwitchToScene(None)
+        self.SwitchToScene(None, None)

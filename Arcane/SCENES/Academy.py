@@ -40,7 +40,7 @@ class YAwareGroup(pygame.sprite.Group):
         self.lostsprites = []
 
 class Academy(SceneModel):
-    def Start(self, _gameWindow, sceneManager):
+    def Start(self, _gameWindow, sceneManager, startPos):
         self.window = _gameWindow
         self.sceneManager = sceneManager
 
@@ -54,7 +54,11 @@ class Academy(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, pygame.Vector2(512,-768), self.tilemap, 1)
+        if(startPos != None):
+            self.player = Player(self.wall, pygame.Vector2(startPos.x * 128, -startPos.y * 128), self.tilemap, 1)
+        else:
+            self.player = Player(self.wall, pygame.Vector2(512,-768), self.tilemap, 1)
+
         self.player.canInteract = False
         self.player.useDepth = False
         
@@ -123,7 +127,7 @@ class Academy(SceneModel):
                     self.dialogue.setText("Meu jovem irmão, pelos boatos que ouvi, um dos maiores mestres \nde Muay Thai caiu diante de um jovem mago Apolda... Os nossos \nmelhores guerreiros são ineficazes sem o equilíbrio da natureza...")
                     self.seventhDialogue = True  
                 else:
-                    self.SwitchToScene(self.sceneManager.scenesArray[2])
+                    self.SwitchToScene(self.sceneManager.scenesArray[2], None)
                     self.dialogue.visible = False
                     self.explosion(1920, 1080)
                     #self.player.canInteract = True                                  

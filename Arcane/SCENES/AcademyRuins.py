@@ -61,7 +61,7 @@ class YAwareGroup(pygame.sprite.Group):
         self.lostsprites = []
 
 class Ruins(SceneModel):
-    def Start(self, _gameWindow, sceneManager):
+    def Start(self, _gameWindow, sceneManager, startPos):
         self.window = _gameWindow
         self.sceneManager = sceneManager
 
@@ -75,7 +75,11 @@ class Ruins(SceneModel):
 
         self.tilemap.Generate(self.surface, pygame.Vector2(-6,5))
 
-        self.player = Player(self.wall, pygame.Vector2(512,-768), self.tilemap, 1)
+        if(startPos != None):
+            self.player = Player(self.wall, pygame.Vector2(startPos.x * 128, -startPos.y * 128), self.tilemap, 1)
+        else:
+            self.player = Player(self.wall, pygame.Vector2(512,-768), self.tilemap, 1)
+
         self.player.canInteract = False
         self.player.useDepth = False
         self.player.standUp = True
@@ -248,7 +252,7 @@ class Ruins(SceneModel):
 
             if(self.player.isoReal.x == 0):
                 self.nextLevel = True
-                self.SwitchToScene(self.sceneManager.scenesArray[1])
+                self.SwitchToScene(self.sceneManager.scenesArray[3], None)
                 self.Destroy()
                 pygame.display.flip()         
 
