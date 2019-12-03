@@ -7,6 +7,11 @@ from Core.Dialogue import Dialogue
 from OBJECTS.Player import Player
 from OBJECTS.Kamon import Kamon
 
+soundsDir = "SOUNDS/"
+pygame.mixer.init()
+explosion = pygame.mixer.Sound(soundsDir + "explosion.ogg")
+explosion.set_volume(0.5)
+
 class PlayerFollow(object):
     def __init__(self, startPosition):
         self.x = startPosition[0]
@@ -80,6 +85,7 @@ class Academy(SceneModel):
     
     def explosion(self, width, height): 
         surface = pygame.Surface((width, height))
+        explosion.play()
         surface.fill((0,0,0))
         for i in range(0, 3):
             pygame.time.delay(300)

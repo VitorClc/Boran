@@ -56,7 +56,6 @@ class Kamon(pygame.sprite.Sprite):
         self.isoMov = pygame.math.Vector2((cartesian.x - cartesian.y) + self.tilemap.tileSize.x / 2 + 12, (cartesian.x + cartesian.y) / 2 + self.tilemap.tileSize.y * 4 + 200)
         self.isoReal = pygame.math.Vector2(cartesian.x / 128, -cartesian.y / 128)
 
-
     def Update(self, surface):
 
         self.cartesianPos.x += self.dX

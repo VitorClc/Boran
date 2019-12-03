@@ -7,13 +7,15 @@ from SCENES.startMenu import startMenu
 from SCENES.Academy import Academy
 from SCENES.AcademyRuins import Ruins
 from SCENES.City import City
+from SCENES.Field import Field
+from SCENES.Field2 import Field2
 
 targetFPS = 60
 
 pygame.init()
 gameWindow = GameWindow(1920, 1080, "Arcane")
 
-scenes = [startMenu(),Academy(), Ruins(), City()]
+scenes = [startMenu(),Academy(), Ruins(), City(), Field(), Field2()]
 sceneManager = SceneManager(scenes, 0, gameWindow)
 
 clock = pygame.time.Clock()

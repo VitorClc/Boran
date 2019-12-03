@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="isometric" renderorder="right-down" width="10" height="10" tilewidth="256" tileheight="128" nextobjectid="1">
- <tileset firstgid="1" source="../tileset_boran001.tsx"/>
- <layer name="1A_chao" width="10" height="10">
+ <tileset firstgid="1" source="../TILESETS/tileset_boran001.tsx"/>
+ <layer id="1" name="1A_Chao" width="10" height="10">
   <data encoding="csv">
-72,73,73,72,0,0,72,73,73,72,
-0,16,16,16,16,16,16,16,16,16,
-0,16,16,16,16,16,16,16,16,16,
+72,73,73,72,38,38,72,73,73,72,
+25,16,16,16,16,16,16,16,16,16,
+25,16,16,16,16,16,16,16,16,16,
 71,71,71,71,16,16,71,71,71,71,
 71,71,71,71,16,16,71,71,71,71,
 71,71,71,71,16,16,71,71,71,71,
@@ -15,11 +15,11 @@
 71,71,71,71,16,16,71,71,71,71
 </data>
  </layer>
- <layer name="1A_parede" width="10" height="10">
+ <layer id="2" name="1A_Parede" width="10" height="10">
   <data encoding="csv">
-0,0,0,0,36,36,0,0,0,0,
-34,0,0,0,0,0,0,0,0,0,
-34,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
 0,0,0,56,0,0,53,0,0,0,
 41,41,41,56,0,0,53,41,41,41,
 0,0,0,56,0,0,53,0,0,0,

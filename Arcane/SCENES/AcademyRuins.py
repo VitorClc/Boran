@@ -8,6 +8,11 @@ from OBJECTS.Player import Player
 from OBJECTS.Kamon import Kamon
 from OBJECTS.NPC import NPC
 
+soundsDir = "SOUNDS/"
+pygame.mixer.init()
+music = pygame.mixer.Sound(soundsDir + "music1.ogg")
+music.set_volume(0.5)
+
 class PlayerFollow(object):
     def __init__(self, startPosition):
         self.x = startPosition[0]
@@ -66,6 +71,8 @@ class Ruins(SceneModel):
         self.sceneManager = sceneManager
 
         self.wall = YAwareGroup()
+        
+        music.play()
 
         self.tilemap = Loader("MAPS/academia_001.tmx", self.wall)
         

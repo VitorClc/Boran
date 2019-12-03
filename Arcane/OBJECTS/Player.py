@@ -9,6 +9,7 @@ from os import listdir
 from os.path import isfile, join
 
 baseDir = "SPRITES/Player/"
+soundsDir = "SOUNDS/"
 
 ##ANIMATIONS
 runFront = [f for f in listdir(baseDir + "Running5/") if isfile(join(baseDir + "Running5/", f))]
@@ -23,6 +24,9 @@ runRightUp = [f for f in listdir(baseDir + "Running4/") if isfile(join(baseDir +
 
 standingUP = [f for f in listdir(baseDir + "StandingUP/") if isfile(join(baseDir + "StandingUP/", f))]
 
+pygame.mixer.init()
+walkingSound = pygame.mixer.Sound(soundsDir + "BoranWalking.ogg")
+walkingSound.set_volume(0.07)
 
 # 0 = Front; 1 = Back; 2 = Left; 3 = Right; 4 = Left-Back; 5 = Left-Up; 6 = Right-Back; 7 = Right-Up
 stopSprites = ["Idle/5.png", "Idle/1.png", "Idle/7.png", "Idle/3.png", "Idle/8.png", "Idle/6.png", "Idle/2.png", "Idle/4.png"]
@@ -55,7 +59,7 @@ class Player(pygame.sprite.Sprite):
         ## ANIMATION
         self.lastDir = startSprite
         self.walkCount = 0 
-        self.animationSpeed = 20
+        self.animationSpeed = 29
         self.lastUpdate = 0
 
         self.standUp = False
@@ -234,6 +238,11 @@ class Player(pygame.sprite.Sprite):
     def Update(self, camera, surface):
         self.checkPosition()
 
+        if(self.moving == True):
+            walkingSound.play()
+        else:
+            walkingSound.stop()
+            
         self.cartesianPos.x += self.dX * 4
         self.cartesianPos.y += self.dY * 4
 
